@@ -19,3 +19,11 @@ By Donating, You Will Help Me To Maintain This Bot!
 - [Paypal](https://www.paypal.com/paypalme/legendemoji)
 - [Patreon](https://www.patreon.com/LegendaryEmoji)
 - [Ko-Fi](https://ko-fi.com/LegendaryEmoji)
+
+### License
+
+- I Will Get Your Ass If You Ever Say **This Is Your Bot Or Smth**
+
+- If You Don't Say That Then Its Okay, You Can Use It (Please Give Credit If YOu Can) :D
+
+- Mit License

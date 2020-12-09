@@ -21,7 +21,7 @@ module.exports = {
     if (!Queue.Playing) return message.channel.send("🎶 Already Paused");
     
     Queue.Playing = false;
-    Queue.Bot.dispatcher.pause(true);
+    Queue.Bot.dispatcher.pause();
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)

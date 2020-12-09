@@ -21,7 +21,7 @@ module.exports = {
     if (Queue.Playing) return message.channel.send("🎶 Already Playing");
     
     Queue.Playing = true;
-    Queue.Bot.dispatcher.pause(false);
+    Queue.Bot.dispatcher.resume();
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)

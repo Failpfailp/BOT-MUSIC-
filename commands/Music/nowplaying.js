@@ -20,19 +20,16 @@ module.exports = {
     
     const Song = await Queue.Songs[0];
     
-    const Data = `Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${Song.Author}](${Song.AuthorLink})**\nUpload - **${Song.Upload}**\nViews - **${Song.Views || 0}**\nAge Restricted - **${Song.Age}**\nDuration - **${Song.Duration}**\nAdded - **${Song.Owner}**`;
+    const Data = `Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${Song.Author}](${Song.AuthorLink})**\nUpload - **${Song.Upload}**\nViews - **${Song.Views || 0}**\nDuration - **${Song.Duration}**\n\nAge Restricted - **${Song.Age}**\nAdded By - **${Song.Owner}**`;
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
+    .setThumbnail(Song.Thumbnail)
     .setTitle("Now Playing!")
     .setDescription(Data)
     .setFooter(`Requested By ${message.author.username}`)
     .setTimestamp();
     
-    console.log(Data);
-    
-    console.log(message.channel.send("lol"));
-    
-    return message.channnel.send("lol").catch(() => message.channel.send(`Song - **${Song.Title}**\nCreator - **${Song.Author}**\nDuration - **${Song.Duration}**`))
-  }
+    console.log(message.channel.send(Embed));
+    }
 };
