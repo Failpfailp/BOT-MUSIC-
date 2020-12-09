@@ -13,7 +13,6 @@ module.exports = {
   usage: "Play <Song Name | Song Link | Playlist Link>",
   run: async (client, message, args) => {
     const Channel = message.member.voice.channel;
-
     if (!message.guild.me.hasPermission("SEND_MESSAGES")) return;
     if (!Channel)
       return message.channel.send("Please Join A Voice Channel To Play Music!");
@@ -47,7 +46,7 @@ module.exports = {
         Song = await Objector(SongInfo, message);
       } catch (error) {
         console.log(error);
-        return message.channel.send(`Error: No Video Found (ID)!`);
+        return message.channel.send("Error: No Video Found (ID)!");
       }
     } else if (YtUrl.test(args[0]) && !args[0].toLowerCase().includes("list")) {
       try {
@@ -57,7 +56,7 @@ module.exports = {
       } catch (error) {
         console.log(error);
         return message.channel.send(
-          `Error: Something Went Wrong Or No Video Found (Link)!`
+          "Error: Something Went Wrong Or No Video Found (Link)!"
         );
       }
     } else if (
@@ -76,7 +75,7 @@ module.exports = {
       } catch (error) {
         console.log(error);
         return message.channel.send(
-          `Error: Something Went Wrong Or No Playlist Found Or Playlist Videos Are Private Or No Videos (ID)!`
+          "Error: Something Went Wrong Or No Playlist Found Or Playlist Videos Are Private Or No Videos (ID)!"
         );
       }
     } else if (YtPlUrl.test(args[0])) {
@@ -92,7 +91,7 @@ module.exports = {
       } catch (error) {
         console.log(error);
         return message.channel.send(
-          `Error: Something Went Wrong Or No Playlist Found Or Playlist Videos Are Private Or No Videos (Url)!`
+          "Error: Something Went Wrong Or No Playlist Found Or Playlist Videos Are Private Or No Videos (Url)!"
         );
       }
     } else {
@@ -106,7 +105,7 @@ module.exports = {
       } catch (error) {
         console.log(error);
         return message.channel.send(
-          `Error: Something Went Wrong Or No Video Found (Query)`
+          "Error: Something Went Wrong Or No Video Found (Query)"
         );
       }
     }
@@ -116,20 +115,17 @@ module.exports = {
       Joined = await Channel.join();
     } catch (error) {
       console.log(error);
-      return message.channel.send(`Error: I Can't Join The Voice Channel!`);
+      return message.channel.send("Error: I Can't Join The Voice Channel!");
     }
 
     if (ServerQueue) {
       console.log(ServerQueue.Songs);
       if (Playlist && Playlist.Yes) {
-        const Embed = {
-          embed: {
-            color: "RANDOM",
-            title: `Playlist Added!`,
-            description: `[Playlist](${args[0]}) Has Been Added To Queue!`,
-            timestamp: new Date()
-          }
-        };
+        const Embed = new Discord.MessageEmbed()
+        .setColor(Color)
+        .setTitle("Playlist Added!")
+        .setDescription(`[Playlist](${args[0]}) Has Been Added To Queue!`)
+        .setTimestamp();
         await Playlist.Data.forEach(async Video => {
           try {
             const Info = await Ytdl.getInfo(
@@ -141,28 +137,25 @@ module.exports = {
           } catch (error) {
             await Channel.leave().catch(() => {});
             return message.channel.send(
-              `Error: Something Went Wrong From Bot Inside!`
+              "Error: Something Went Wrong From Bot Inside!"
             );
           }
         });
         return message.channel
           .send(Embed)
           .catch(() =>
-            message.channel.send(`Playlist Has Been Added To Queue!`)
+            message.channel.send("Playlist Has Been Added To Queue!")
           );
       } else {
-        const Embed = {
-          embed: {
-            color: "RANDOM",
-            title: "Song Added!",
-            description: `[Song](${Song.Link}) Has Been Added To Queue!`,
-            timestamp: new Date()
-          }
-        };
+        const Embed = new Discord.MessageEmbed()
+        .setColor(Color)
+        .setTitle("Song Added!")
+        .setDescription(`[Song](${Song.Link}) Has Been Added To Queue!`)
+        .setTimestamp();
         await ServerQueue.Songs.push(Song);
         return message.channel
           .send(Embed)
-          .catch(() => message.channel.send(`Song Has Been Added To Queue!`));
+          .catch(() => message.channel.send("Song Has Been Added To Queue!"));
       }
     }
 
@@ -199,16 +192,8 @@ module.exports = {
         const Embeded = new Discord.MessageEmbed()
         .setColor(Color)
         .setTitle("Queue Ended!")
-        .set
-        const Embeded = {
-          embed: {
-            color: "RANDOM",
-            title: "Queue Ended!",
-            description:
-              "Server Queue Has Been Ended, Thanks For Listening To Me <3",
-            timestamp: new Date()
-          }
-        };
+        .setDescription("Server Queue Has Been Ended, Thanks For Listening To Me <3")
+        .setTimestamp();
         return message.channel
           .send(Embeded)
           .catch(() =>
