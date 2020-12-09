@@ -3,11 +3,11 @@ const Discord = require("discord.js");
 const db = require("wio.db");
 
 module.exports = {
-  name: "pause",
-  aliases: ["stop"],
+  name: "resume",
+  aliases: ["restart"],
   category: "Music",
-  description: "Pause Music!",
-  usage: "Pause",
+  description: "Resume The Music!",
+  usage: "Resume",
   run: async (client, message, args) => {
     
     const Channel = message.member.voice.channel;
@@ -18,17 +18,17 @@ module.exports = {
     
     if (!Queue) return message.channel.send("Nothing Is Playing Right Now, Add Some Songs To Queue :D");
    
-    if (!Queue.Playing) return message.channel.send("🎶 Already Paused");
+    if (Queue.Playing) return message.channel.send("🎶 Already Playing");
     
-    Queue.Playing = false;
-    Queue.Bot.dispatcher.pause(true);
+    Queue.Playing = true;
+    Queue.Bot.dispatcher.pause(false);
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
     .setTitle("Success")
-    .setDescription("🎶 Music Has Been Paused!")
+    .setDescription("🎶 Music Has Been Resumed!")
     .setTimestamp();
     
-    return message.channel.send(Embed).catch(() => message.channel.send("🎶 Music Has Been Paused!"));
+    return message.channel.send(Embed).catch(() => message.channel.send("🎶 Music Has Been Resumed!"));
   }
 };

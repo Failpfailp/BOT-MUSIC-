@@ -3,11 +3,11 @@ const Discord = require("discord.js");
 const db = require("wio.db");
 
 module.exports = {
-  name: "pause",
-  aliases: ["stop"],
+  name: "nowplaying",
+  aliases: ["np"],
   category: "Music",
-  description: "Pause Music!",
-  usage: "Pause",
+  description: "Show Music Information!",
+  usage: "Nowplaying",
   run: async (client, message, args) => {
     
     const Channel = message.member.voice.channel;
@@ -17,18 +17,14 @@ module.exports = {
     const Queue = await client.queue.get(message.guild.id);
     
     if (!Queue) return message.channel.send("Nothing Is Playing Right Now, Add Some Songs To Queue :D");
-   
-    if (!Queue.Playing) return message.channel.send("🎶 Already Paused");
     
-    Queue.Playing = false;
-    Queue.Bot.dispatcher.pause(true);
+    const Song = Queue.Songs[0];
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
-    .setTitle("Success")
-    .setDescription("🎶 Music Has Been Paused!")
+    .setTitle("Now Playing!")
+    .setDescription(`Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${Song.Author}](${Song.AuthorLink})**\nUpload - **${Song.Upload}**\nViews - **${Song.Views || 0}**\nAge Restricted - **${Song.Age}**\nDuration - **${Song.Duration}**`)
+    .setFooter(`Requested By ${}`)
     .setTimestamp();
-    
-    return message.channel.send(Embed).catch(() => message.channel.send("🎶 Music Has Been Paused!"));
   }
 };

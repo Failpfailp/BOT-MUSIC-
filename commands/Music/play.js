@@ -13,7 +13,6 @@ module.exports = {
   usage: "Play <Song Name | Song Link | Playlist Link>",
   run: async (client, message, args) => {
     const Channel = message.member.voice.channel;
-    if (!message.guild.me.hasPermission("SEND_MESSAGES")) return;
     if (!Channel)
       return message.channel.send("Please Join A Voice Channel To Play Music!");
     if (!args[0])
