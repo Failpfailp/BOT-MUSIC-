@@ -41,13 +41,14 @@ module.exports = {
     
     if (YtID.test(args[0])) {
         try {
-            
-            SongInfo = await SYt.getVideo(args[0]);
-            console.log((SongInfo));
+          
+            const Link = await Linker(args[0]);
+            const Info = await Ytdl.getInfo(Link);
+            SongInfo = Info.videoDetails;
             Song = {
                 ID: SongInfo.id,
                 Title: SongInfo.title,
-                Link: `https://youtube.com/watch?v=${SongInfo.id}`,
+                Link: Link,
                 Duration: FD(SongInfo.Duration),
                 Thumbnail: SongInfo.thumbnail,
                 Author: SongInfo.channel.name,
