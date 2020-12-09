@@ -13,7 +13,10 @@
     "express": "^4.17.1",
     "discord.js": "^12.5.0",
     "fs": "^0.0.2",
-    "wio.db": "^4.0.9"
+    "wio.db": "^4.0.9",
+    "youtube-sr": "^2.0.4",
+    "discord-ytdl-core": "^5.0.0",
+    "ytpl": "^1.0.1"
   },
   "engines": {
     "node": "12.x"
