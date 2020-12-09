@@ -2,39 +2,52 @@ const { Default_Prefix, Color } = require("../../config.js");
 const Discord = require("discord.js");
 
 module.exports = {
-  name: "setprefix",
-  aliases: ["newprefix", "sp"],
-  category: "Config",
-  description: "Set The Prefix Of Bot!",
-  usage: "Setprefix <New Prefix>",
+  name: "loop",
+  aliases: ["lp"],
+  category: "Music",
+  description: "Show Loop Status & You Can Also Set Loop Status!",
+  usage: "Loop | <On Or Off>",
   run: async (client, message, args) => {
     
-    if (!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send("You Don't Have Enough Permission To Execute This Command - Manage Server");
+    const Channel = message.member.voice.channel;
     
-    let Prefix = await db.fetch(`Prefix_${message.guild.id}`);
-    if (!Prefix) Prefix = Default_Prefix;
+    if (!Channel) return message.channel.send("Please Join A Voice Channel!");
     
-    const NewPrefix = args.join(" ");
+    const Queue = await client.queue.get(message.guild.id);
     
-    if (!NewPrefix) return message.channel.send("Please Give New Prefix Of Bot!");
-    
-    if (NewPrefix.length > 10) return message.channel.send("Too Long Prefix - 10 Limit");
-    
-    if (NewPrefix === Prefix) return message.channel.send("Given Prefix Is The Current Prefix!");
+    if (!Queue) return message.channel.send("Nothing Is Playing Right Now, Add Some Songs To Queue :D");
     
     const Embed = new Discord.MessageEmbed()
-    .setColor(Color || "RANDOM")
-    .setTitle("Sucess")
-    .setDescription(`New Prefix Has Been Setted - ${NewPrefix}`)
-    .setFooter(`Setted By ${message.author.username}`)
+    .setColor(Color)
+    .setTitle("Loop Status")
+    .setDescription(`🎶 Loop Status - ${Queue.Loop ? "On" : "Off"}`)
     .setTimestamp();
     
-    await db.set(`Prefix_${message.guild.id}`, NewPrefix);
+    if (!args[0]) return message.channel.send(Embed);
     
-    try {
-      return message.channel.send(Embed);
-    } catch (error) {
-      return message.channel.send(`New Prefix Has Been Setted - ${NewPrefix}`);
+    const Settings = ["on", "off"];
+    
+    if (!Settings.find(Set => Set === args[0].toLowerCase())) return message.channel.send("Invalid Option Provided - On , Off");
+    
+    const Status = Queue.Loop ? "on" : "off";
+    
+    args[0] = args[0].toLowerCase();
+    
+    if (args[0] === Status) return message.channel.send(`Already ${Queue.Loop ? "On" : "Off"}`);
+    
+    const Embeded = new Discord.MessageEmbed()
+    .setColor(Color)
+    .setTitle("Success")
+    .setTimestamp();
+    
+    if (args[0] === "on") {
+      Queue.Loop = true;
+      Embeded.setDescription("Loop Has Been Enabled!")
+      return message.channel.send(Embeded);
+    } else {
+      Queue.Loop = false;
+      Embeded.setDescription("Loop Has Been Disabled!");
+      return message.channel.send(Embeded);
     };
   }
 };
