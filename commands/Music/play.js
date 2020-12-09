@@ -80,7 +80,7 @@ module.exports = {
             Song = await Objector(SongInfo, message);
             Playlist = {
                 Yes: true,
-                Data: Info2.videos
+                Data: Info.items
             };
         } catch (error) {
             console.log(error);
@@ -88,21 +88,10 @@ module.exports = {
         };
     } else {
         try {
-            const Info = await SYt.search(args.join(" "), { type: "video", limit: 1});
-            SongInfo = await SYt.getVideo(Info[0].id);
-            Song = {
-                ID: SongInfo.id,
-                Title: SongInfo.title,
-                Link: `https://youtube.com/watch?v=${SongInfo.id}`,
-                Duration: FD(SongInfo.Duration),
-                Thumbnail: SongInfo.thumbnail,
-                Author: SongInfo.channel.name,
-                Upload: SongInfo.uploadDate,
-                Views: FC(SongInfo.viewCount || 0),
-                Likes: FC(SongInfo.likeCount || 0),
-                DisLikes: FC(SongInfo.dislikeCount || 0),
-                Owner: message.author.username
-            };
+            const Info = await Sr.searchOne(args.join(" "));
+            const YtInfo = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Info.id}`);
+            SongInfo = await 
+            Song = await Objector(SongInfo, message);
         } catch (error) {
             console.log(error);
             return message.channel.send(`Error: Something Went Wrong Or No Video Found (Query)`);
