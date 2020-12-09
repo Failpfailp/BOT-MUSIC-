@@ -3,9 +3,9 @@ const fs = require("fs");
 const db = require("wio.db");
 const client = new Discord.Client();
 const { Default_Prefix, Token, Support, Color } = require("./config.js");
-
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
+client.queue = new Map();
 
 client.on("ready", async () => {
   console.log(`Bot Is Ready To Go!\nTag: ${client.user.tag}`);
@@ -64,7 +64,7 @@ client.on("message", async message => {
   }
 });
 
-if ("pp" === false) {
+if (false === false) {
 
 client.login(Token).catch(() => console.log(`Invalid Token Is Provided - Please Give Valid Token!`));
   
