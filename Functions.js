@@ -36,19 +36,27 @@ module.exports = {
 
         return Split.join(":");
     };
-    async function Fc(Count) {
+    async function FC(Count) {
        if (Count.length === 4) {
             return `${Count[0]}k`;
         } else if (Count.length === 5) {
             return `${Count[0]}${Count[1]}k`;
         } else if (Count.length === 6) {
-            return `${Count[0]}m`;
+            return `${Count[0]}${Count[1]}${Count[2]}k`;
         } else if (Count.length === 7) {
+            return `${Count[0]}m`;
+        } else if (Count.length === 8) {
             return `${Count[0]}${Count[1]}m`;
         } else if (Count.length === 8) {
-            return `${Count[0]}b`;
-        } else if (Count.length === 8) {
-            return `${Count[0]}${Count[1]}b`;
+            return `${Count[0]}${Count[1]}${Count[2]}m`;
+        } else if (Count.length === 9) {
+          return `${Count[0]}b`;
+        } else if (Count.length === 10) {
+          return `${Count[0]}${Count[1]}b`
+        } else if (Count.length === 11) {
+          return `${Count[0]}${Count[1]}${Count[2]}b`;
+        } else if (Count.length === 12) {
+          return `${Count[0]}t`;
         } else {
             return Count;
         };

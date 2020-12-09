@@ -1,5 +1,5 @@
 const { Default_Prefix, Color } = require("../../config.js");
-const { GetRegxp, Linker } = require("../../Functions.js");
+const { GetRegxp, Linker, Objector } = require("../../Functions.js");
 const Discord = require("discord.js");
 const Sr = require("youtube-sr");
 const Ytpl = require("ytpl");
@@ -41,23 +41,10 @@ module.exports = {
     
     if (YtID.test(args[0])) {
         try {
-          
             const Link = await Linker(args[0]);
             const Info = await Ytdl.getInfo(Link);
             SongInfo = Info.videoDetails;
-            Song = await Objector(SongInfo); {
-                ID: SongInfo.id,
-                Title: SongInfo.title,
-                Link: Link,
-                Duration: FD(SongInfo.Duration),
-                Thumbnail: SongInfo.thumbnail,
-                Author: SongInfo.channel.name,
-                Upload: SongInfo.uploadDate,
-                Views: FC(SongInfo.viewCount || 0),
-                Likes: FC(SongInfo.likeCount || 0),
-                DisLikes: FC(SongInfo.dislikeCount || 0),
-                Owner: message.author.username
-            };
+            Song = await Objector(SongInfo, message);
         } catch (error) {
             console.log(error);
             return message.channel.send(`Error: No Video Found (ID)!`);
@@ -65,44 +52,21 @@ module.exports = {
     } else if (YtUrl.test(args[0]) && !args[0].toLowerCase().includes("list")) {
         try {
             const Info = await Ytdl.getInfo(args[0]);
-            SongInfo = await SYt.getVideo(Info.videoDetails.videoId);
-            Song = {
-                ID: SongInfo.id,
-                Title: SongInfo.title,
-                Link: `https://youtube.com/watch?v=${SongInfo.id}`,
-                Duration: FD(SongInfo.Duration),
-                Thumbnail: SongInfo.thumbnail,
-                Author: SongInfo.channel.name,
-                Upload: SongInfo.uploadDate,
-                Views: FC(SongInfo.viewCount || 0),
-                Likes: FC(SongInfo.likeCount || 0),
-                DisLikes: FC(SongInfo.dislikeCount || 0),
-                Owner: message.author.username
-            };
+            SongInfo = Info.videoDetails;
+            Song = await Objector(SongInfo, message);
         } catch (error) {
             console.log(error);
             return message.channel.send(`Error: Something Went Wrong Or No Video Found (Link)!`);
         };
     } else if (YtPlID.test(args[0]) && !args[0].toLowerCase().startsWith("http")) {
         try {
-            const Info = await SYt.getPlaylist(args[0]);
-            SongInfo = await SYt.getVideo(Info.videos[0].id);
-            Song = {
-                ID: SongInfo.id,
-                Title: SongInfo.title,
-                Link: `https://youtube.com/watch?v=${SongInfo.id}`,
-                Duration: FD(SongInfo.Duration),
-                Thumbnail: SongInfo.thumbnail,
-                Author: SongInfo.channel.name,
-                Upload: SongInfo.uploadDate,
-                Views: FC(SongInfo.viewCount || 0),
-                Likes: FC(SongInfo.likeCount || 0),
-                DisLikes: FC(SongInfo.dislikeCount || 0),
-                Owner: message.author.username
-            };
+            const Info = await Ytpl(args[0]);
+            const YtInfo = await Ytdl.getInfo(Info.items[0].url_simple);
+            SongInfo = YtInfo.videoDetails;
+            Song = await Objector(SongInfo, message);
             Playlist = {
                 Yes: true,
-                Data: Info.videos
+                Data: Info.items
             };
         } catch (error) {
             console.log(error);
@@ -111,21 +75,9 @@ module.exports = {
     } else if (YtPlUrl.test(args[0])) {
         try {
             const Info = await Ytpl(args[0]);
-            const Info2 = await SYt.getPlaylist(Info.id);
-            SongInfo = await SYt.getVideo(Info2.videos[0].id);
-            Song = {
-                ID: SongInfo.id,
-                Title: SongInfo.title,
-                Link: `https://youtube.com/watch?v=${SongInfo.id}`,
-                Duration: FD(SongInfo.Duration),
-                Thumbnail: SongInfo.thumbnail,
-                Author: SongInfo.channel.name,
-                Upload: SongInfo.uploadDate,
-                Views: FC(SongInfo.viewCount || 0),
-                Likes: FC(SongInfo.likeCount || 0),
-                DisLikes: FC(SongInfo.dislikeCount || 0),
-                Owner: message.author.username
-            };
+            const YtInfo = await Ytdl.getInfo(Info.items[0].url_simple);
+            SongInfo = YtInfo.videoDetails;
+            Song = await Objector(SongInfo, message);
             Playlist = {
                 Yes: true,
                 Data: Info2.videos
