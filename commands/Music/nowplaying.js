@@ -23,8 +23,10 @@ module.exports = {
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
     .setTitle("Now Playing!")
-    .setDescription(`Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${Song.Author}](${Song.AuthorLink})**\nUpload - **${Song.Upload}**\nViews - **${Song.Views || 0}**\nAge Restricted - **${Song.Age}**\nDuration - **${Song.Duration}**`)
-    .setFooter(`Requested By ${}`)
+    .setDescription(`Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${Song.Author}](${Song.AuthorLink})**\nUpload - **${Song.Upload}**\nViews - **${Song.Views || 0}**\nAge Restricted - **${Song.Age}**\nDuration - **${Song.Duration}**\nAdded - **${Song.Owner}**`)
+    .setFooter(`Requested By ${message.author.username}`)
     .setTimestamp();
+    
+    return message.channnel.send(Embed).catch(() => message.channel.send(`Song - **${Song.Title}**\nCreator - **${Song.Author}**\nDuration - **${Song.Duration}**`))
   }
 };

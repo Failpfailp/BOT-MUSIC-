@@ -49,6 +49,8 @@ client.on("message", async message => {
 
   let command =
     client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
+  
+  if (!message.guild.me.hasPermission("SEND_MESSAGES")) return;
 
   if (!command)
     return message.channel.send(
