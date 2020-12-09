@@ -27,12 +27,12 @@ module.exports = {
         try {
         IsoString = await Dete.toISOString().substr(11, 8);
         } catch (error) {
-            return "?:?:?";
+            return console.log(IsoString);
         };
         let Split = IsoString.split(":");
         if (Split[0] === "00") Split = Split.slice(1);
         if (Split[0].startsWith("0")) Split[0] = Split[0][1];
-        if (isNaN(Split[0].toLowerCase())) return "?:?:?";
+        if (isNaN(Split[0].toLowerCase())) return console.log(Split);
 
         return Split.join(":");
     };
@@ -47,30 +47,30 @@ module.exports = {
             return `${Count[0]}m`;
         } else if (Count.length === 8) {
             return `${Count[0]}${Count[1]}m`;
-        } else if (Count.length === 8) {
-            return `${Count[0]}${Count[1]}${Count[2]}m`;
         } else if (Count.length === 9) {
-          return `${Count[0]}b`;
+            return `${Count[0]}${Count[1]}${Count[2]}m`;
         } else if (Count.length === 10) {
-          return `${Count[0]}${Count[1]}b`
+          return `${Count[0]}b`;
         } else if (Count.length === 11) {
-          return `${Count[0]}${Count[1]}${Count[2]}b`;
+          return `${Count[0]}${Count[1]}b`
         } else if (Count.length === 12) {
+          return `${Count[0]}${Count[1]}${Count[2]}b`;
+        } else if (Count.length === 13) {
           return `${Count[0]}t`;
         } else {
             return Count;
         };
     }
     return {
-      ID: Song.VideoId,
+      ID: Song.videoId,
       Title: Song.title,
       Link: Song.video_url,
-      Duration: FD(Song.Duration),
+      Duration: await FD(Song.Duration),
       Thumbnail: Song.thumbnail.thumbnails[0].url,
       Author: Song.ownerChannelName,
       AuthorLink: Song.ownerProfileUrl,
       Upload: Song.uploadDate,
-      Views: FC(Song.viewCount || 0),
+      Views: await FC(Song.viewCount || 0),
       Age: Song.age_restricted ? "Yes" : "No",
       Owner: message.author.username
     };
