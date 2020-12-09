@@ -31,6 +31,8 @@ module.exports = {
     
     console.log(Data);
     
-    return message.channnel.send(Data).catch(() => message.channel.send(`Song - **${Song.Title}**\nCreator - **${Song.Author}**\nDuration - **${Song.Duration}**`))
+    console.log(message.channel.send("lol"));
+    
+    return message.channnel.send("lol").catch(() => message.channel.send(`Song - **${Song.Title}**\nCreator - **${Song.Author}**\nDuration - **${Song.Duration}**`))
   }
 };
