@@ -1,34 +1,67 @@
-// server.js
-// where your node app starts
+const Discord = require("discord.js");
+const fs = require("fs");
+const db = require("wio.db");
+const client = new Discord.Client();
+const { Default_Prefix, Token, Support, Color } = require("./config.js");
 
-// we've started you off with Express (https://expressjs.com/)
-// but feel free to use whatever libraries or frameworks you'd like through `package.json`.
-const express = require("express");
-const app = express();
+client.commands = new Discord.Collection();
+client.aliases = new Discord.Collection();
 
-// our default array of dreams
-const dreams = [
-  "Find and count some sheep",
-  "Climb a really tall mountain",
-  "Wash the dishes"
-];
-
-// make all the files in 'public' available
-// https://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
-
-// https://expressjs.com/en/starter/basic-routing.html
-app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html");
+client.on("ready", async () => {
+  console.log(`Bot Is Ready To Go!\nTag: ${client.user.tag}`);
+  client.user.setActivity(`New Members!`, { type: "WATCHING" });
 });
 
-// send the default array of dreams to the webpage
-app.get("/dreams", (request, response) => {
-  // express helps us take JS objects and send them as JSON
-  response.json(dreams);
+let modules = ["Config", "Other"];
+
+modules.forEach(function(module) {
+  fs.readdir(`./commands/${module}`, function(error, files) {
+    if (error) return new Error(`${error}`);
+    files.forEach(function(file) {
+      if (!file.endsWith(".js"))
+        throw new Error(`A File Does Not End With .js!`);
+      let command = require(`./commands/${module}/${file}`);
+      console.log(`${command.name} Has Been Loaded - ✅`);
+      if (command.name) client.commands.set(command.name, command);
+      if (command.aliases) {
+        command.aliases.forEach(alias =>
+          client.aliases.set(alias, command.name)
+        );
+      }
+      if (command.aliases.length === 0) command.aliases = null;
+    });
+  });
 });
 
-// listen for requests :)
-const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
+client.on("message", async message => {
+  if (message.author.bot || !message.guild || message.webhookID) return;
+
+  let Prefix = await db.fetch(`Prefix_${message.guild.id}`);
+  if (!Prefix) Prefix = Default_Prefix;
+
+  if (!message.content.startsWith(Prefix)) return;
+
+  let args = message.content
+    .slice(Prefix.length)
+    .trim()
+    .split(/ +/g);
+  let cmd = args.shift().toLowerCase();
+
+  let command =
+    client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
+
+  if (!command)
+    return message.channel.send(
+      `No Command Found - ${cmd.charAt(0).toUpperCase() + cmd.slice(1)}`
+    );
+
+  try {
+    if (command) {
+      command.run(client, message, args);
+    }
+  } catch (error) {
+    return message.channel.send(`Something Went Wrong, Try Again Later!`);
+  }
 });
+
+client.login(Token).catch(() => console.log(`Invalid Token Is Provided - Please Give Valid Token!`));
