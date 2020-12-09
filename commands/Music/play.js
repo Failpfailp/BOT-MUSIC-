@@ -45,7 +45,7 @@ module.exports = {
             const Link = await Linker(args[0]);
             const Info = await Ytdl.getInfo(Link);
             SongInfo = Info.videoDetails;
-            Song = {
+            Song = await Objector(SongInfo); {
                 ID: SongInfo.id,
                 Title: SongInfo.title,
                 Link: Link,
