@@ -18,7 +18,7 @@ module.exports = {
     
     if (!Queue) return message.channel.send("Nothing Is Playing Right Now, Add Some Songs To Queue :D");
     
-    const Song = Queue.Songs[0];
+    const Song = await Queue.Songs[0];
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
