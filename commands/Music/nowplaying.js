@@ -20,13 +20,17 @@ module.exports = {
     
     const Song = await Queue.Songs[0];
     
+    const Data = `Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${Song.Author}](${Song.AuthorLink})**\nUpload - **${Song.Upload}**\nViews - **${Song.Views || 0}**\nAge Restricted - **${Song.Age}**\nDuration - **${Song.Duration}**\nAdded - **${Song.Owner}**`;
+    
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
     .setTitle("Now Playing!")
-    .setDescription(`Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${Song.Author}](${Song.AuthorLink})**\nUpload - **${Song.Upload}**\nViews - **${Song.Views || 0}**\nAge Restricted - **${Song.Age}**\nDuration - **${Song.Duration}**\nAdded - **${Song.Owner}**`)
+    .setDescription(Data)
     .setFooter(`Requested By ${message.author.username}`)
     .setTimestamp();
     
-    return message.channnel.send(Embed).catch(() => message.channel.send(`Song - **${Song.Title}**\nCreator - **${Song.Author}**\nDuration - **${Song.Duration}**`))
+    console.log(Data);
+    
+    return message.channnel.send(Data).catch(() => message.channel.send(`Song - **${Song.Title}**\nCreator - **${Song.Author}**\nDuration - **${Song.Duration}**`))
   }
 };
