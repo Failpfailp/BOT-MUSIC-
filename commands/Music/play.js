@@ -68,11 +68,11 @@ module.exports = {
         SongInfo = YtInfo.videoDetails;
         Song = await Objector(SongInfo, message);
         const Arr = [];
-        const Pusher = await Info.videos.forEach(async vid => {
-          const Infor = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${vid.id}`);
+        for (const Video of Info.videos) {
+          const Infor = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Video.id}`);
           const Detail = Infor.videoDetails;
           await Arr.push(await Objector(Detail, message));
-        });
+        };
         Playlist = {
           Yes: true,
           Data: Arr
@@ -91,11 +91,11 @@ module.exports = {
         SongInfo = YtInfo.videoDetails;
         Song = await Objector(SongInfo, message);
         const Arr = [];
-        const Pusher = await Info.videos.forEach(async vid => {
-                    const Infor = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${vid.id}`);
+        for (const Video of Info.videos) {
+          const Infor = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Video.id}`);
           const Detail = Infor.videoDetails;
           await Arr.push(await Objector(Detail, message));
-        });
+        };
         Playlist = {
           Yes: true,
           Data: Arr
@@ -131,7 +131,6 @@ module.exports = {
     }
 
     if (ServerQueue) {
-      console.log(ServerQueue.Songs);
       if (Playlist && Playlist.Yes) {
         const Embed = new Discord.MessageEmbed()
         .setColor(Color)
@@ -140,18 +139,13 @@ module.exports = {
         .setTimestamp();
         await Playlist.Data.forEach(async Video => {
           try {
-            const Info = await Ytdl.getInfo(
-              `https://www.youtube.com/watch?v=${Video.id}`
-            );
-            const YtInfo = Info.videoDetails;
-            const Info2 = await Objector(YtInfo, message);
-            await ServerQueue.Songs.push(Info2);
+            await ServerQueue.Songs.push(Video);
           } catch (error) {
             await Channel.leave().catch(() => {});
             return message.channel.send(
               "Error: Something Went Wrong From Bot Inside!"
             );
-          }
+          };
         });
         return message.channel
           .send(Embed)
@@ -168,8 +162,8 @@ module.exports = {
         return message.channel
           .send(Embed)
           .catch(() => message.channel.send("Song Has Been Added To Queue!"));
-      }
-    }
+      };
+    };
 
     const Database = {
       TextChannel: message.channel,
@@ -183,8 +177,8 @@ module.exports = {
 
     await client.queue.set(message.guild.id, Database);
     
-    if (Playlist) {
-      //await Playlist.Data.forEach(ele => Database.Songs.push(ele));
+    if (Playlist && Playlist.Yes) {
+      await Playlist.Data.forEach(ele => Database.Songs.push(ele));
     } else {
       await Database.Songs.push(Song);
     };
