@@ -23,9 +23,9 @@ module.exports = {
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
     .setTitle("Success")
-    .setDescription("🎶 !")
+    .setDescription("🎶 Joined The Voice Channel, Use Play Command To Play Music!")
     .setTimestamp();
     
-    return message.channel.send(Embed).catch(() => message.channel.send("🎶 Music Has Been Paused!"));
+    return message.channel.send(Embed).catch(() => message.channel.send("🎶 Joined The Voice Channel, Use Play Command To Play Music!"));
   }
 };

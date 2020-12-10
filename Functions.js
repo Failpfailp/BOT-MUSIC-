@@ -22,6 +22,7 @@ module.exports = {
   Objector: async function(Song, message) {
     const moment = require("moment");
     function FD(duration) {
+      duration = parseInt(duration);
       if (duration >= 3600000) {
         return moment(duration).format('H:mm:ss');
       } else {
