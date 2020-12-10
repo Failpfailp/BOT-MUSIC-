@@ -67,9 +67,15 @@ module.exports = {
         const YtInfo = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Info.videos[0].id}`);
         SongInfo = YtInfo.videoDetails;
         Song = await Objector(SongInfo, message);
+        const Arr = [];
+        const Pusher = await Info.videos.forEach(async vid => {
+          const Infor = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${vid.id}`);
+          const Detail = Infor.videoDetails;
+          await Arr.push(await Objector(Detail, message));
+        });
         Playlist = {
           Yes: true,
-          Data: Info.videos
+          Data: Arr
         };
       } catch (error) {
         console.log(error);
@@ -84,9 +90,15 @@ module.exports = {
         const YtInfo = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Info.videos[0].id}`);
         SongInfo = YtInfo.videoDetails;
         Song = await Objector(SongInfo, message);
+        const Arr = [];
+        const Pusher = await Info.videos.forEach(async vid => {
+                    const Infor = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${vid.id}`);
+          const Detail = Infor.videoDetails;
+          await Arr.push(await Objector(Detail, message));
+        });
         Playlist = {
           Yes: true,
-          Data: Info.videos
+          Data: Arr
         };
       } catch (error) {
         console.log(error);
@@ -171,15 +183,8 @@ module.exports = {
 
     await client.queue.set(message.guild.id, Database);
     
-    if (Playlist && Playlist.Yes) {
-      await Playlist.Data.forEach(async Videod => {
-        const Info = await Ytdl.getInfo(
-          `https://www.youtube.com/watch?v=${Videod.id}`
-        );
-        const YtInfo = Info.videoDetails;
-        const Info2d = await Objector(YtInfo, message);
-        await Database.Songs.push(Info2d);
-      });
+    if (Playlist) {
+      //await Playlist.Data.forEach(ele => Database.Songs.push(ele));
     } else {
       await Database.Songs.push(Song);
     };
@@ -190,7 +195,6 @@ module.exports = {
       const Db = await client.queue.get(message.guild.id);
 
       if (!Play) {
-        return message.channel.send(`nothing to play wtf?`)
         await Db.VoiceChannel.leave();
         await client.queue.delete();
         const Embeded = new Discord.MessageEmbed()
@@ -250,8 +254,6 @@ module.exports = {
     };
 
     try {
-      console.log(Database.Songs);
-      return;
       await Player(Database.Songs[0]);
     } catch (error) {
       console.log(error);
