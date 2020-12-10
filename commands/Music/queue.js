@@ -18,7 +18,18 @@ module.exports = {
     
     if (!Queue) return message.channel.send("Nothing Is Playing Right Now, Add Some Songs To Queue :D");
     
-    const Sort = Queue.Songs.map(async (Song, Position) => `${(Position + 1) === 1 ? `Now Playing: ${Song.Title}` : `${Position + 1} | ${Song.Title.length > 55 ? Song.Title.slice(0, 55) + "..." : Song.Title}`}`).join("\n");
+    const PositionSetter = async (Position) => {
+      Position = parseInt(Position);
+      if (Position === 2) {
+        return 1
+      } else {
+        return Position - 1;
+      };
+    };
+    
+    const Sort = await Queue.Songs.map((Song, Position) => `${(Position + 1) === 1 ? `Now Playing: ${Song.Title}` : `${async function pp() {
+      if (P)
+    }} | ${Song.Title.length > 55 ? Song.Title.slice(0, 55) + "..." : Song.Title}`}`).join("\n");
     
     return message.channel.send("```" + Sort + "```", { split: { char: "\n" } });
   }
