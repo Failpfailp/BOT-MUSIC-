@@ -20,46 +20,48 @@ module.exports = {
     }
   },
   Objector: async function(Song, message) {
-    async function FD(Duration) {
-      const Dete = new Date(0);
-        Dete.setSeconds(Duration);
-        let IsoString;
-        try {
-        IsoString = await Dete.toISOString().substr(11, 8);
-        } catch (error) {
-            return console.log(IsoString);
-        };
-        let Split = IsoString.split(":");
-        if (Split[0] === "00") Split = Split.slice(1);
-        if (Split[0].startsWith("0")) Split[0] = Split[0][1];
-        if (isNaN(Split[0].toLowerCase())) return console.log(Split);
+    function FD(duration) {
+      var seconds = (duration / 1000).toFixed(0);
+      var minutes = Math.floor(seconds / 60);
+      var hours = "";
+      if (minutes > 59) {
+        hours = Math.floor(minutes / 60);
+        hours = hours >= 10 ? hours : "0" + hours;
+        minutes = minutes - hours * 60;
+        minutes = minutes >= 10 ? minutes : "0" + minutes;
+      }
 
-        return Split.join(":");
-    };
+      seconds = Math.floor(seconds % 60);
+      seconds = seconds >= 10 ? seconds : "0" + seconds;
+      if (hours != "") {
+        return hours + ":" + minutes + ":" + seconds;
+      }
+      return minutes + ":" + seconds;
+    }
     async function FC(Count) {
-       if (Count.length === 4) {
-            return `${Count[0]}k`;
-        } else if (Count.length === 5) {
-            return `${Count[0]}${Count[1]}k`;
-        } else if (Count.length === 6) {
-            return `${Count[0]}${Count[1]}${Count[2]}k`;
-        } else if (Count.length === 7) {
-            return `${Count[0]}m`;
-        } else if (Count.length === 8) {
-            return `${Count[0]}${Count[1]}m`;
-        } else if (Count.length === 9) {
-            return `${Count[0]}${Count[1]}${Count[2]}m`;
-        } else if (Count.length === 10) {
-          return `${Count[0]}b`;
-        } else if (Count.length === 11) {
-          return `${Count[0]}${Count[1]}b`
-        } else if (Count.length === 12) {
-          return `${Count[0]}${Count[1]}${Count[2]}b`;
-        } else if (Count.length === 13) {
-          return `${Count[0]}t`;
-        } else {
-            return Count;
-        };
+      if (Count.length === 4) {
+        return `${Count[0]}k`;
+      } else if (Count.length === 5) {
+        return `${Count[0]}${Count[1]}k`;
+      } else if (Count.length === 6) {
+        return `${Count[0]}${Count[1]}${Count[2]}k`;
+      } else if (Count.length === 7) {
+        return `${Count[0]}m`;
+      } else if (Count.length === 8) {
+        return `${Count[0]}${Count[1]}m`;
+      } else if (Count.length === 9) {
+        return `${Count[0]}${Count[1]}${Count[2]}m`;
+      } else if (Count.length === 10) {
+        return `${Count[0]}b`;
+      } else if (Count.length === 11) {
+        return `${Count[0]}${Count[1]}b`;
+      } else if (Count.length === 12) {
+        return `${Count[0]}${Count[1]}${Count[2]}b`;
+      } else if (Count.length === 13) {
+        return `${Count[0]}t`;
+      } else {
+        return Count;
+      }
     }
     return {
       ID: Song.videoId,

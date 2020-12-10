@@ -81,7 +81,6 @@ module.exports = {
       try {
         const Splitter = await args[0].split("list=")[1];
         const Info = await syt.getPlaylist(Splitter.endsWith("/") ? Splitter.slice(0, -1) : Splitter);
-        console.log(Info);
         const YtInfo = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Info.videos[0].id}`);
         SongInfo = YtInfo.videoDetails;
         Song = await Objector(SongInfo, message);
@@ -134,7 +133,7 @@ module.exports = {
             );
             const YtInfo = Info.videoDetails;
             const Info2 = await Objector(YtInfo, message);
-            ServerQueue.Songs.push(Info2);
+            await ServerQueue.Songs.push(Info2);
           } catch (error) {
             await Channel.leave().catch(() => {});
             return message.channel.send(
@@ -171,6 +170,7 @@ module.exports = {
     };
 
     await client.queue.set(message.guild.id, Database);
+    
     if (Playlist && Playlist.Yes) {
       await Playlist.Data.forEach(async Videod => {
         const Info = await Ytdl.getInfo(
@@ -182,12 +182,15 @@ module.exports = {
       });
     } else {
       await Database.Songs.push(Song);
-    }
+    };
+    
+    message.channel.send(`reached`)
 
-    const Player = async Play => {
-      const Db = client.queue.get(message.guild.id);
+    const Player = async (Play) => {
+      const Db = await client.queue.get(message.guild.id);
 
       if (!Play) {
+        return message.channel.send(`nothing to play wtf?`)
         await Db.VoiceChannel.leave();
         await client.queue.delete();
         const Embeded = new Discord.MessageEmbed()
@@ -247,6 +250,8 @@ module.exports = {
     };
 
     try {
+      console.log(Database.Songs);
+      return;
       await Player(Database.Songs[0]);
     } catch (error) {
       console.log(error);
