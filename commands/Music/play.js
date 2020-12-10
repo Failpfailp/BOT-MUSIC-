@@ -2,7 +2,7 @@ const { Default_Prefix, Color } = require("../../config.js");
 const { GetRegxp, Linker, Objector } = require("../../Functions.js");
 const Discord = require("discord.js");
 const Sr = require("youtube-sr");
-const Ytpl = require("ytpl");
+const syt = require("scrape-yt");
 const Ytdl = require("discord-ytdl-core");
 
 module.exports = {
@@ -63,13 +63,13 @@ module.exports = {
       !args[0].toLowerCase().startsWith("http")
     ) {
       try {
-        const Info = await Ytpl(args[0]);
-        const YtInfo = await Ytdl.getInfo(Info.items[0].url_simple);
+        const Info = await syt.getPlaylist(args[0]);
+        const YtInfo = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Info.videos[0].id}`);
         SongInfo = YtInfo.videoDetails;
         Song = await Objector(SongInfo, message);
         Playlist = {
           Yes: true,
-          Data: Info.items
+          Data: Info.videos
         };
       } catch (error) {
         console.log(error);
@@ -79,13 +79,15 @@ module.exports = {
       }
     } else if (YtPlUrl.test(args[0])) {
       try {
-        const Info = await Ytpl(args[0]);
-        const YtInfo = await Ytdl.getInfo(Info.items[0].url_simple);
+        const Splitter = await args[0].split("list=")[1];
+        const Info = await syt.getPlaylist(Splitter.endsWith("/") ? Splitter.slice(0, -1) : Splitter);
+        console.log(Info);
+        const YtInfo = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Info.videos[0].id}`);
         SongInfo = YtInfo.videoDetails;
         Song = await Objector(SongInfo, message);
         Playlist = {
           Yes: true,
-          Data: Info.items
+          Data: Info.videos
         };
       } catch (error) {
         console.log(error);
