@@ -18,6 +18,10 @@ module.exports = {
     
     if (!Queue) return message.channel.send("Nothing Is Playing Right Now, Add Some Songs To Queue :D");
     
+    const One = (Song) => {
+      return Song.Title
+    }
+    
     const Sort = Queue.Songs.map((Song, Position) => `${Position + 1} | ${Song.Title.length > 55 ? Song.Title.slice(0, 55) + "..." : Song.Title}`).join("\n");
     
     return message.channel.send("```" + Sort + "```", { split: { char: "\n" } });

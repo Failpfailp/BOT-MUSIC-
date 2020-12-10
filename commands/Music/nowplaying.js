@@ -20,7 +20,7 @@ module.exports = {
     
     const Song = await Queue.Songs[0];
     
-    const Data = `Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${Song.Author}](${Song.AuthorLink})**\nUpload - **${Song.Upload}**\nViews - **${Song.Views || 0}**\nDuration - **${Song.Duration}**\n\nAge Restricted - **${Song.Age}**\nAdded By - **${Song.Owner}**`;
+    const Data = `Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${Song.Author}](${Song.AuthorLink})**\nUpload - **${Song.Upload}**\nViews - **${Song.Views || 0}**\nDuration - **${Song.Duration}**\nAge Restricted - **${Song.Age}**\nAdded By - **${Song.Owner}**`;
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)

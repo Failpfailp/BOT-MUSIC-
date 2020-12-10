@@ -4,6 +4,7 @@ dependencies:
   discord.js: 12.5.1
   express: 4.17.1
   fs: 0.0.2
+  moment: 2.29.1
   scrape-yt: 1.4.7
   wio.db: 4.0.9
   youtube-sr: 2.0.4
@@ -723,6 +724,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
+  /moment/2.29.1:
+    dev: false
+    resolution:
+      integrity: sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
   /ms/2.0.0:
     dev: false
     resolution:
@@ -1202,6 +1207,7 @@ specifiers:
   discord.js: ^12.5.0
   express: ^4.17.1
   fs: ^0.0.2
+  moment: ^2.29.1
   scrape-yt: ^1.4.7
   wio.db: ^4.0.9
   youtube-sr: ^2.0.4
