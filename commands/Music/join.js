@@ -3,30 +3,27 @@ const Discord = require("discord.js");
 const db = require("wio.db");
 
 module.exports = {
-  name: "pause",
-  aliases: ["wait"],
+  name: "join",
+  aliases: ["come"],
   category: "Music",
-  description: "Pause Music!",
-  usage: "Pause",
+  description: "Join The Voice Channel!",
+  usage: "Join",
   run: async (client, message, args) => {
     
     const Channel = message.member.voice.channel;
     
     if (!Channel) return message.channel.send("Please Join A Voice Channel!");
     
-    const Queue = await client.queue.get(message.guild.id);
+    if (!Channel.joinable) return message.channel.send("I Can't Join The Voice Channel!");
     
-    if (!Queue) return message.channel.send("Nothing Is Playing Right Now, Add Some Songs To Queue :D");
-   
-    if (!Queue.Playing) return message.channel.send("🎶 Already Paused");
-    
-    Queue.Playing = false;
-    Queue.Bot.dispatcher.pause();
+    await Channel.join().catch(() => {
+      return message.channel.send("Unable To Join The Voice Channel!");
+    });
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
     .setTitle("Success")
-    .setDescription("🎶 Music Has Been Paused!")
+    .setDescription("🎶 !")
     .setTimestamp();
     
     return message.channel.send(Embed).catch(() => message.channel.send("🎶 Music Has Been Paused!"));

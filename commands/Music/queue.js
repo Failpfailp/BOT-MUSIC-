@@ -19,10 +19,14 @@ module.exports = {
     if (!Queue) return message.channel.send("Nothing Is Playing Right Now, Add Some Songs To Queue :D");
     
     const One = (Song) => {
-      return Song.Title
-    }
+      return `Now Playing: ${Song.Title}`;
+    };
     
-    const Sort = Queue.Songs.map((Song, Position) => `${Position + 1} | ${Song.Title.length > 55 ? Song.Title.slice(0, 55) + "..." : Song.Title}`).join("\n");
+    const Other = (Song, Position) => {
+      return `${Position + 1} | ${Song.Title.length > 55 ? Song.Title.slice(0, 55) + "..." : Song.Title}`;
+    };
+    
+    const Sort = Queue.Songs.map(async (Song, Position) => `${(Position + 1) === 1 ? await One(Song) : await Other(Song, Position)}`).join("\n");
     
     return message.channel.send("```" + Sort + "```", { split: { char: "\n" } });
   }
