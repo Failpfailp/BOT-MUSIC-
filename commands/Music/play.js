@@ -135,6 +135,7 @@ module.exports = {
         const Embed = new Discord.MessageEmbed()
         .setColor(Color)
         .setTitle("Playlist Added!")
+        .setThumbnail(Playlist.Data[0].Thumbnail)
         .setDescription(`[Playlist](${args[0].includes("http") ? args[0] : `https://www.youtube.com/playlist?list=${args[0]}`}) Has Been Added To Queue!`)
         .setTimestamp();
         await Playlist.Data.forEach(async Video => {
@@ -156,7 +157,8 @@ module.exports = {
         const Embed = new Discord.MessageEmbed()
         .setColor(Color)
         .setTitle("Song Added!")
-        .setDescription(`[Song](${Song.Link}) Has Been Added To Queue!`)
+        .setThumbnail(Song.Thumbnail)
+        .setDescription(`[${Song.Title}](${Song.Link}) Has Been Added To Queue!`)
         .setTimestamp();
         await ServerQueue.Songs.push(Song);
         return message.channel
