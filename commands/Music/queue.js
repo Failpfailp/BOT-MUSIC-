@@ -23,10 +23,8 @@ module.exports = {
     const Sort = await Queue.Songs.map((Song, Position) => {
        if ((Position + 1) === 1) {
          return `Now Playing: ${Song.Title}\n`;
-       } else if ((Position + 1) === 2) {
-         return `1 | ${Song.Title}`;
        } else {
-         return `${Position + 1} | ${Song.Title.length > 60 ? Song.Title.slice(0, 60) + "..." : Song.Title}`;
+         return `${Position - 1} | ${Song.Title.length > 60 ? Song.Title.slice(0, 60) + "..." : Song.Title}`;
        };
     }).join("\n");
 

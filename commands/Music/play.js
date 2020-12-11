@@ -172,6 +172,7 @@ module.exports = {
       VoiceChannel: Channel,
       Bot: Joined,
       Songs: [],
+      Filters: [],
       Volume: 50,
       Loop: false,
       Playing: true
@@ -210,6 +211,19 @@ module.exports = {
       Db.Bot.on("disconnect", async () => {
         await client.queue.delete(message.guild.id);
       });
+      
+                  const encoderArgsFilters = []
+            Object.keys(Db.filters).forEach((filterName) => {
+                if (Db.filters[filterName]) {
+                    encoderArgsFilters.push(filters[filterName])
+                }
+            })
+            let encoderArgs
+            if (encoderArgsFilters.length < 1) {
+                encoderArgs = []
+            } else {
+                encoderArgs = ['-af', encoderArgsFilters.join(',')]
+            }
 
       const Dispatcher = await Db.Bot.play(
         await Ytdl(String(Play.Link), {
