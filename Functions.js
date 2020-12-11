@@ -20,7 +20,6 @@ module.exports = {
     }
   },
   UpdateStream: async function(message, client, Filter, ytdl) {
-    const Player = require("./")
     const Queue = await client.queue.get(message.guild.id);
 
     const Filters = {
@@ -74,11 +73,11 @@ module.exports = {
         type: "opus",
         bitrate: "auto"
       }).on("finish", async () => {
-          const Shift = await Db.Songs.shift();
-          if (Db.Loop === true) {
-            await Db.Songs.push(Shift);
+          const Shift = await Queue.Songs.shift();
+          if (Queue.Loop === true) {
+            await Queue.Songs.push(Shift);
           }
-          await Player(Db.Songs[0]);
+          //await Player(Queue.Songs[0]);
         })
         .on("error", async error => {
           await console.log(error);
