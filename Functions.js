@@ -100,7 +100,7 @@ module.exports = {
          if (Db.Loop === true) {
            await Db.Songs.push(Shift);
          } else {
-           await this.Player(Db.Songs[0]);
+           await module.exports.Player(message, Discord, client, Ytdl, { Play: Db.Songs[0], Color: require("./config.js").Color });
          };
        }).on("error", async error => {
          await console.log(error);
