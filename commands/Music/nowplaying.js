@@ -30,11 +30,13 @@ module.exports = {
       Song.Author
     }](${Song.AuthorLink})**\nUpload - **${
       Song.Upload
-    }**\nViews - **${Song.Views || 0}**\nDuration - **${Song.Duration}**\n\n`;
+    }**\nViews - **${Song.Views || 0}**\nDuration - **${Total}**\n`;
 
-    const Secs = Math.round((Time / Seconds) * 16);
+    const Secs = Math.round((Time - Seconds)), Secon = (Time / 1000).toFixed(0);
     
+    console.log(Secs);
     
+    const ShowBar = await Bar(Seconds, Secs), Remaining = await FD(Secon);
 
     function FD(duration) {
       let minutes = Math.floor(duration / 60);
@@ -51,13 +53,13 @@ module.exports = {
         return hours + ":" + minutes + ":" + duration;
       }
       return minutes + ":" + duration;
-    }
+    };
 
     const Embed = new Discord.MessageEmbed()
       .setColor(Color)
       .setThumbnail(Song.Thumbnail)
       .setTitle("Now Playing!")
-      .setDescription(Data)
+      .setDescription(Data + ShowBar + "\n\n" + Remaining + "\n" + Song.Duration)
       .setFooter(`Added By ${Song.Owner}`)
       .setTimestamp();
 
