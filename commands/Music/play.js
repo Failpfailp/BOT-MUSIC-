@@ -222,9 +222,7 @@ module.exports = {
       await Playlist.Data.forEach(ele => Database.Songs.push(ele));
     } else {
       await Database.Songs.push(Song);
-    }
-
-    message.channel.send(`reached`);
+    };
 
     const Player = async Play => {
       const Db = await client.queue.get(message.guild.id);

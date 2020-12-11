@@ -3,10 +3,10 @@ const Discord = require("discord.js");
 const db = require("wio.db");
 
 module.exports = {
-  name: "queue",
-  aliases: ["q"],
+  name: "shuffle",
+  aliases: ["sf", "shufflequeue"],
   category: "Music",
-  description: "Show Music Queue!",
+  description: "Shuffle Music Queue!",
   usage: "Queue",
   run: async (client, message, args) => {
     const Channel = message.member.voice.channel;
@@ -20,10 +20,17 @@ module.exports = {
         "Nothing Is Playing Right Now, Add Some Songs To Queue :D"
       );
     
-    const Sort = await Queue.Songs.map((Song, Position) => `${Position + 1} | ${Song.Title.length > 60 ? Song.Title.slice(0, 60) + "..." : Song.Title}`).join("\n");
-
-    return message.channel.send("```" + Sort + "```", {
-      split: { char: "\n" }
-    });
+    const Current = Queue.Songs.shift();
+    
+    Queue.Songs = Queue.Songs.sort(() => Math.random() - 0.05);
+    Queue.Songs.unshift(Current);
+    
+    const Embed = new Discord.MessageEmbed()
+    .setColor(Color)
+    .setTitle("Success")
+    .setDescription("🎶 Queue Has Been Shuffled")
+    .setTimestamp();
+    
+    return message.channel.send(Embed).then(() => message.channel.send("🎶 Queue Has Been Shuffled"));
   }
 };
