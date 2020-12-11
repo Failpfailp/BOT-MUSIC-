@@ -263,7 +263,7 @@ module.exports = {
         Encoder = [];
       } else {
         Encoder = ["-af", EcoderFilters.join(",")];
-      }
+      };
 
       const Dispatcher = await Db.Bot.play(
         await Ytdl(String(Play.Link), {
