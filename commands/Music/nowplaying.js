@@ -24,19 +24,6 @@ module.exports = {
       Seconds = Song.Seconds,
       Time = Queue.Bot.dispatcher.streamTime;
 
-    const Sec = Math.round(Time / 1000);
-    const Remaining = await FD((Seconds - Sec).toFixed(0));
-    const Adder = await FD(Sec);
-    const Index = Math.round((Time / Seconds) * 15);
-    const Bar = "▬▬▬▬▬▬▬▬▬▬▬▬▬▬".split("");
-    let ShowBar;
-
-    if (Index >= 1 && Index <= 15) {
-      ShowBar = Bar.splice(Index, 0, "🔵");
-    } else {
-      ShowBar = "🔵▬▬▬▬▬▬▬▬▬▬▬▬▬▬";
-    }
-
     function FD(duration) {
       let minutes = Math.floor(duration / 60);
       let hours = "";
@@ -52,20 +39,35 @@ module.exports = {
         return hours + ":" + minutes + ":" + duration;
       }
       return minutes + ":" + duration;
-    }
+    };
+
+    const Sec = Math.round(Time / 1000),
+      AllTime = (Seconds * 1000).toFixed(0);
+    const Remaining = await FD((Seconds - Sec).toFixed(0));
+    const Adder = await FD(Sec);
+    const Index = Math.round((Time / AllTime) * 25);
+    const Bar = "▬▬▬▬▬▬▬▬▬▬▬▬▬▬".split("");
+    let ShowBar;
+
+    if (Index >= 1 && Index <= 25) {
+      Bar.splice(Index, 0, "🔵");
+      ShowBar = Bar.join("");
+    } else {
+      ShowBar = "🔵▬▬▬▬▬▬▬▬▬▬▬▬▬▬";
+    };
 
     const Data = `Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${
       Song.Author
     }](${Song.AuthorLink})**\nUpload - **${
       Song.Upload
     }**\nViews - **${Song.Views ||
-      0}**\nDuration - **${Total}**\nRemaining - **${Remaining}**\n`;
+      0}**\nDuration - **${Total}**\nRemaining - **${Remaining}**\n\n`;
 
     const Embed = new Discord.MessageEmbed()
       .setColor(Color)
       .setThumbnail(Song.Thumbnail)
       .setTitle("Now Playing!")
-      .setDescription(Data + ShowBar)
+      .setDescription(Data + `${ShowBar}\n${Adder}/${Total}`)
       .setFooter(`Added By ${Song.Owner}`)
       .setTimestamp();
 
