@@ -1,7 +1,5 @@
 const { Default_Prefix, Color } = require("../../config.js");
 const Discord = require("discord.js");
-const db = require("wio.db");
-const Bar = require("string-progressbar");
 
 module.exports = {
   name: "nowplaying",
@@ -26,24 +24,18 @@ module.exports = {
       Seconds = Song.Seconds,
       Time = Queue.Bot.dispatcher.streamTime;
 
-    const Data = `Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${
-      Song.Author
-    }](${Song.AuthorLink})**\nUpload - **${
-      Song.Upload
-    }**\nViews - **${Song.Views || 0}**\nDuration - **${Total}**\n`;
-    
-    const Remaining = Math.round((Time / 1000));
+    const Sec = Math.round(Time / 1000);
+    const Remaining = await FD((Seconds - Sec).toFixed(0));
+    const Adder = await FD(Sec);
     const Index = Math.round((Time / Seconds) * 15);
     const Bar = "▬▬▬▬▬▬▬▬▬▬▬▬▬▬".split("");
     let ShowBar;
-    
+
     if (Index >= 1 && Index <= 15) {
       ShowBar = Bar.splice(Index, 0, "🔵");
     } else {
-      ShowBar = "🔵▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
-    };
-    
-    
+      ShowBar = "🔵▬▬▬▬▬▬▬▬▬▬▬▬▬▬";
+    }
 
     function FD(duration) {
       let minutes = Math.floor(duration / 60);
@@ -60,13 +52,20 @@ module.exports = {
         return hours + ":" + minutes + ":" + duration;
       }
       return minutes + ":" + duration;
-    };
+    }
+
+    const Data = `Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${
+      Song.Author
+    }](${Song.AuthorLink})**\nUpload - **${
+      Song.Upload
+    }**\nViews - **${Song.Views ||
+      0}**\nDuration - **${Total}**\nRemaining - **${Remaining}**\n`;
 
     const Embed = new Discord.MessageEmbed()
       .setColor(Color)
       .setThumbnail(Song.Thumbnail)
       .setTitle("Now Playing!")
-      .setDescription(Data + "\n\n" + Remaining + "\n" + Song.Duration)
+      .setDescription(Data + ShowBar)
       .setFooter(`Added By ${Song.Owner}`)
       .setTimestamp();
 

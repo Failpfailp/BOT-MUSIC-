@@ -20,7 +20,6 @@ module.exports = {
     }
   },
   Objector: async function(Song, message) {
-    const moment = require("moment");
     function FD(duration) {
       let minutes = Math.floor(duration / 60);
       let hours = "";
