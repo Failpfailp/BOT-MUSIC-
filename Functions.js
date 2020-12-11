@@ -92,43 +92,28 @@ module.exports = {
        if (Db.Steam) Db.Steam.destroy();
        Db.Steam = Steam;
        
-       await Db.Bot.play(Steam, {
+       const Dispatcher = await Db.Bot.play(Steam, {
          type: "opus",
          birate: "auto"
+       }).on("finish", async () => {
+         const Shift = await Db.Songs.shift();
+         if (Db.Loop === true) {
+           await Db.Songs.push(Shift);
+         } else {
+           await this.Player(Db.Songs[0]);
+         };
+       }).on("error", async error => {
+         await console.log(error);
+         return message.channel.send("Error: Something Went Wrong From Bot Inside");
        });
       
+        await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
       
-    }, 1000);
-
-    const Dispatcher = Db.Bot.play(
-      await Ytdl(String(options.Play.Link), {
-        filter: "audioonly",
-        opusEncoded: true,
-        quality: "highestaudio",
-        seek: Seek / 1000,
-        Encoder,
-        highWaterMark: 1 << 30
-      })
-    )
-      .on("finish", async () => {
-        const Shift = await Db.Songs.shift();
-        if (Db.Loop === true) {
-          await Db.Songs.push(Shift);
-        }
-        await this.Player(Db.Songs[0]);
-      })
-      .on("error", async error => {
-        await console.log(error);
-        return message.channel.send(
-          "Error: Something Went Wrong From Bot Inside"
-        );
-      });
-    
-    Db.Steam = Dispatcher;
-
-    await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
-
-    const PlayEmbed = new Discord.MessageEmbed()
+        if (Seek) {
+          Db.Bot.dispatcher.streamTime += Seek;
+        };
+      
+      const PlayEmbed = new Discord.MessageEmbed()
       .setColor(options.Color)
       .setThumbnail(options.Play.Thumbnail)
       .setTitle("Now Playing!")
@@ -138,6 +123,8 @@ module.exports = {
     await Db.TextChannel.send(PlayEmbed).catch(() =>
       Db.TextChannnel.send(`🎶 Now Playing: **${options.Play.Title}**`)
     );
+      
+    }, 1000);
   },
   async Objector(Song, message) {
     function FD(duration) {
