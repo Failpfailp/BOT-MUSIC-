@@ -24,15 +24,9 @@ module.exports = {
       .setTitle("Scuess")
       .setDescription(`🎶 Nightcore Has Been ${Queue.Filters["nightcore"] ? "Enabled" : "Disabled"}`)
       .setTimestamp();
-
-    let Obj = {
-      nightcore: true
-    };
-
-    Object.keys(Obj).forEach(FilterName => {
-      Queue.Filters[FilterName] = Obj[FilterName];
-    });
     
+    Queue.Filters["nightcore"] = true;
+
     return message.channel.send(Embed).catch(() => message.channel.send(`🎶 Nightcore Has Been ${Queue.Filters["nightcore"] ? "Enabled" : "Disabled"}`))
   }
 };

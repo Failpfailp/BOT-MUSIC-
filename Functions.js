@@ -47,7 +47,7 @@ module.exports = {
     Object.keys(Queue.Filters).forEach(FilterName => {
       if (Queue.Filters[FilterName]) {
         EcoderFilters.push(Filters[FilterName]);
-      }
+      };
     });
     let Encoder;
     if (EcoderFilters.length < 1) {
