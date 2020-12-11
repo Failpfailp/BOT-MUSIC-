@@ -45,15 +45,16 @@ module.exports = {
       AllTime = (Seconds * 1000).toFixed(0);
     const Remaining = await FD((Seconds - Sec).toFixed(0));
     const Adder = await FD(Sec);
-    const Index = Math.round((Time / AllTime) * 25);
-    const Bar = "▬▬▬▬▬▬▬▬▬▬▬▬▬▬".split("");
+    const Index = Math.round((Time / AllTime) * 20);
+    const Bar = "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".split("");
+    console.log(Bar.length)
     let ShowBar;
 
-    if (Index >= 1 && Index <= 25) {
+    if (Index >= 1 && Index <= 20) {
       Bar.splice(Index, 0, "🔵");
       ShowBar = Bar.join("");
     } else {
-      ShowBar = "🔵▬▬▬▬▬▬▬▬▬▬▬▬▬▬";
+      ShowBar = "🔵▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬";
     };
 
     const Data = `Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${
