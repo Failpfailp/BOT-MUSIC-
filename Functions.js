@@ -19,6 +19,11 @@ module.exports = {
       return `https://youtube.com/watch?v=${Type}`;
     }
   },
+  UpdateStream: async function (message, client, Filter) {
+    const Queue = await client.queue.get(message.guild.id);
+    
+    
+  },
   Objector: async function(Song, message) {
     function FD(duration) {
       let minutes = Math.floor(duration / 60);

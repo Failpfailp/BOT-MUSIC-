@@ -4,6 +4,26 @@ const Discord = require("discord.js");
 const Sr = require("youtube-sr");
 const syt = require("scrape-yt");
 const Ytdl = require("discord-ytdl-core");
+const Filters = {
+  bassboost: "bass=g=20,dynaudnorm=f=200",
+  "8D": "apulsator=hz=0.08",
+  vaporwave: "aresample=48000,asetrate=48000*0.8",
+  nightcore: "aresample=48000,asetrate=48000*1.25",
+  phaser: "aphaser=in_gain=0.4",
+  tremolo: "tremolo",
+  vibrato: "vibrato=f=6.5",
+  reverse: "areverse",
+  treble: "treble=g=5",
+  normalizer: "dynaudnorm=f=200",
+  surrounding: "surround",
+  pulsator: "apulsator=hz=1",
+  subboost: "asubboost",
+  karaoke: "stereotools=mlev=0.03",
+  flanger: "flanger",
+  gate: "agate",
+  haas: "haas",
+  mcompand: "mcompand"
+};
 
 module.exports = {
   name: "play",
@@ -64,15 +84,19 @@ module.exports = {
     ) {
       try {
         const Info = await syt.getPlaylist(args[0]);
-        const YtInfo = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Info.videos[0].id}`);
+        const YtInfo = await Ytdl.getInfo(
+          `https://www.youtube.com/watch?v=${Info.videos[0].id}`
+        );
         SongInfo = YtInfo.videoDetails;
         Song = await Objector(SongInfo, message);
         const Arr = [];
         for (const Video of Info.videos) {
-          const Infor = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Video.id}`);
+          const Infor = await Ytdl.getInfo(
+            `https://www.youtube.com/watch?v=${Video.id}`
+          );
           const Detail = Infor.videoDetails;
           await Arr.push(await Objector(Detail, message));
-        };
+        }
         Playlist = {
           Yes: true,
           Data: Arr
@@ -86,16 +110,22 @@ module.exports = {
     } else if (YtPlUrl.test(args[0])) {
       try {
         const Splitter = await args[0].split("list=")[1];
-        const Info = await syt.getPlaylist(Splitter.endsWith("/") ? Splitter.slice(0, -1) : Splitter);
-        const YtInfo = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Info.videos[0].id}`);
+        const Info = await syt.getPlaylist(
+          Splitter.endsWith("/") ? Splitter.slice(0, -1) : Splitter
+        );
+        const YtInfo = await Ytdl.getInfo(
+          `https://www.youtube.com/watch?v=${Info.videos[0].id}`
+        );
         SongInfo = YtInfo.videoDetails;
         Song = await Objector(SongInfo, message);
         const Arr = [];
         for (const Video of Info.videos) {
-          const Infor = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Video.id}`);
+          const Infor = await Ytdl.getInfo(
+            `https://www.youtube.com/watch?v=${Video.id}`
+          );
           const Detail = Infor.videoDetails;
           await Arr.push(await Objector(Detail, message));
-        };
+        }
         Playlist = {
           Yes: true,
           Data: Arr
@@ -133,11 +163,17 @@ module.exports = {
     if (ServerQueue) {
       if (Playlist && Playlist.Yes) {
         const Embed = new Discord.MessageEmbed()
-        .setColor(Color)
-        .setTitle("Playlist Added!")
-        .setThumbnail(Playlist.Data[0].Thumbnail)
-        .setDescription(`[Playlist](${args[0].includes("http") ? args[0] : `https://www.youtube.com/playlist?list=${args[0]}`}) Has Been Added To Queue!`)
-        .setTimestamp();
+          .setColor(Color)
+          .setTitle("Playlist Added!")
+          .setThumbnail(Playlist.Data[0].Thumbnail)
+          .setDescription(
+            `[Playlist](${
+              args[0].includes("http")
+                ? args[0]
+                : `https://www.youtube.com/playlist?list=${args[0]}`
+            }) Has Been Added To Queue!`
+          )
+          .setTimestamp();
         await Playlist.Data.forEach(async Video => {
           try {
             await ServerQueue.Songs.push(Video);
@@ -146,7 +182,7 @@ module.exports = {
             return message.channel.send(
               "Error: Something Went Wrong From Bot Inside!"
             );
-          };
+          }
         });
         return message.channel
           .send(Embed)
@@ -155,17 +191,19 @@ module.exports = {
           );
       } else {
         const Embed = new Discord.MessageEmbed()
-        .setColor(Color)
-        .setTitle("Song Added!")
-        .setThumbnail(Song.Thumbnail)
-        .setDescription(`[${Song.Title}](${Song.Link}) Has Been Added To Queue!`)
-        .setTimestamp();
+          .setColor(Color)
+          .setTitle("Song Added!")
+          .setThumbnail(Song.Thumbnail)
+          .setDescription(
+            `[${Song.Title}](${Song.Link}) Has Been Added To Queue!`
+          )
+          .setTimestamp();
         await ServerQueue.Songs.push(Song);
         return message.channel
           .send(Embed)
           .catch(() => message.channel.send("Song Has Been Added To Queue!"));
-      };
-    };
+      }
+    }
 
     const Database = {
       TextChannel: message.channel,
@@ -179,26 +217,28 @@ module.exports = {
     };
 
     await client.queue.set(message.guild.id, Database);
-    
+
     if (Playlist && Playlist.Yes) {
       await Playlist.Data.forEach(ele => Database.Songs.push(ele));
     } else {
       await Database.Songs.push(Song);
-    };
-    
-    message.channel.send(`reached`)
+    }
 
-    const Player = async (Play) => {
+    message.channel.send(`reached`);
+
+    const Player = async Play => {
       const Db = await client.queue.get(message.guild.id);
 
       if (!Play) {
         await Db.VoiceChannel.leave();
         await client.queue.delete();
         const Embeded = new Discord.MessageEmbed()
-        .setColor(Color)
-        .setTitle("Queue Ended!")
-        .setDescription("Server Queue Has Been Ended, Thanks For Listening To Me <3")
-        .setTimestamp();
+          .setColor(Color)
+          .setTitle("Queue Ended!")
+          .setDescription(
+            "Server Queue Has Been Ended, Thanks For Listening To Me <3"
+          )
+          .setTimestamp();
         return message.channel
           .send(Embeded)
           .catch(() =>
@@ -211,24 +251,26 @@ module.exports = {
       Db.Bot.on("disconnect", async () => {
         await client.queue.delete(message.guild.id);
       });
-      
-                  const encoderArgsFilters = []
-            Object.keys(Db.filters).forEach((filterName) => {
-                if (Db.filters[filterName]) {
-                    encoderArgsFilters.push(filters[filterName])
-                }
-            })
-            let encoderArgs
-            if (encoderArgsFilters.length < 1) {
-                encoderArgs = []
-            } else {
-                encoderArgs = ['-af', encoderArgsFilters.join(',')]
-            }
+
+      const EcoderFilters = [];
+      Object.keys(Db.Filters).forEach(FilterName => {
+        if (Db.Filters[FilterName]) {
+          EcoderFilters.push(Filters[FilterName]);
+        }
+      });
+      let Encoder;
+      if (EcoderFilters.length < 1) {
+        Encoder = [];
+      } else {
+        Encoder = ["-af", EcoderFilters.join(",")];
+      }
 
       const Dispatcher = await Db.Bot.play(
         await Ytdl(String(Play.Link), {
+          filter: "audioonly",
           opusEncoded: true,
           quality: "highestaudio",
+          Encoder,
           highWaterMark: 1 << 30
         }),
         {
@@ -250,13 +292,13 @@ module.exports = {
         });
 
       await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
-      
+
       const PlayEmbed = new Discord.MessageEmbed()
-      .setColor(Color)
-      .setThumbnail(Play.Thumbnail)
-      .setTitle("Now Playing!")
-      .setDescription(`🎶 Now Playing: **${Play.Title}**`)
-      .setTimestamp();
+        .setColor(Color)
+        .setThumbnail(Play.Thumbnail)
+        .setTitle("Now Playing!")
+        .setDescription(`🎶 Now Playing: **${Play.Title}**`)
+        .setTimestamp();
 
       await Db.TextChannel.send(PlayEmbed).catch(() =>
         message.channel.send(`🎶 Now Playing: **${Play.Title}**`)
