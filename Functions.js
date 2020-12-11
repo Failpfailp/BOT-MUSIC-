@@ -19,83 +19,103 @@ module.exports = {
       return `https://youtube.com/watch?v=${Type}`;
     }
   },
-  Player: async function (message, Discord, client, Ytdl, options = {}) {
+  Player: async function(message, Discord, client, Ytdl, options = {}) {
+    const Filters = {
+      bassboost: "bass=g=20,dynaudnorm=f=200",
+      "8D": "apulsator=hz=0.08",
+      vaporwave: "aresample=48000,asetrate=48000*0.8",
+      nightcore: "aresample=48000,asetrate=48000*1.25",
+      phaser: "aphaser=in_gain=0.4",
+      tremolo: "tremolo",
+      vibrato: "vibrato=f=6.5",
+      reverse: "areverse",
+      treble: "treble=g=5",
+      normalizer: "dynaudnorm=f=200",
+      surrounding: "surround",
+      pulsator: "apulsator=hz=1",
+      subboost: "asubboost",
+      karaoke: "stereotools=mlev=0.03",
+      flanger: "flanger",
+      gate: "agate",
+      haas: "haas",
+      mcompand: "mcompand"
+    };
     const Db = await client.queue.get(message.guild.id);
 
-      if (!options.Play) {
-        await Db.VoiceChannel.leave();
-        await client.queue.delete();
-        const Embeded = new Discord.MessageEmbed()
-          .setColor(options.Color)
-          .setTitle("Queue Ended!")
-          .setDescription(
+    if (!options.Play) {
+      await Db.VoiceChannel.leave();
+      await client.queue.delete();
+      const Embeded = new Discord.MessageEmbed()
+        .setColor(options.Color)
+        .setTitle("Queue Ended!")
+        .setDescription(
+          "Server Queue Has Been Ended, Thanks For Listening To Me <3"
+        )
+        .setTimestamp();
+      return message.channel
+        .send(Embeded)
+        .catch(() =>
+          message.channel.send(
             "Server Queue Has Been Ended, Thanks For Listening To Me <3"
           )
-          .setTimestamp();
-        return message.channel
-          .send(Embeded)
-          .catch(() =>
-            message.channel.send(
-              "Server Queue Has Been Ended, Thanks For Listening To Me <3"
-            )
-          );
+        );
+    }
+
+    Db.Bot.on("disconnect", async () => {
+      await client.queue.delete(message.guild.id);
+    });
+
+    const EcoderFilters = [];
+    Object.keys(Db.Filters).forEach(FilterName => {
+      if (Db.Filters[FilterName]) {
+        EcoderFilters.push(Filters[FilterName]);
       }
+    });
+    let Encoder;
+    if (EcoderFilters.length < 1) {
+      Encoder = [];
+    } else {
+      Encoder = ["-af", EcoderFilters.join(",")];
+    }
 
-      Db.Bot.on("disconnect", async () => {
-        await client.queue.delete(message.guild.id);
+    const Dispatcher = await Db.Bot.play(
+      await Ytdl(String(options.Play.Link), {
+        filter: "audioonly",
+        opusEncoded: true,
+        quality: "highestaudio",
+        Encoder,
+        highWaterMark: 1 << 30
+      }),
+      {
+        type: "opus"
+      }
+    )
+      .on("finish", async () => {
+        const Shift = await Db.Songs.shift();
+        if (Db.Loop === true) {
+          await Db.Songs.push(Shift);
+        }
+        await this.Player(Db.Songs[0]);
+      })
+      .on("error", async error => {
+        await console.log(error);
+        return message.channel.send(
+          "Error: Something Went Wrong From Bot Inside"
+        );
       });
 
-      const EcoderFilters = [];
-      Object.keys(Db.Filters).forEach(FilterName => {
-        if (Db.Filters[FilterName]) {
-          EcoderFilters.push(Filters[FilterName]);
-        }
-      });
-      let Encoder;
-      if (EcoderFilters.length < 1) {
-        Encoder = [];
-      } else {
-        Encoder = ["-af", EcoderFilters.join(",")];
-      };
+    await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
 
-      const Dispatcher = await Db.Bot.play(
-        await Ytdl(String(Play.Link), {
-          filter: "audioonly",
-          opusEncoded: true,
-          quality: "highestaudio",
-          Encoder,
-          highWaterMark: 1 << 30
-        }),
-        {
-          type: "opus"
-        }
-      )
-        .on("finish", async () => {
-          const Shift = await Db.Songs.shift();
-          if (Db.Loop === true) {
-            await Db.Songs.push(Shift);
-          }
-          await Player(Db.Songs[0]);
-        })
-        .on("error", async error => {
-          await console.log(error);
-          return message.channel.send(
-            "Error: Something Went Wrong From Bot Inside"
-          );
-        });
+    const PlayEmbed = new Discord.MessageEmbed()
+      .setColor(options.Color)
+      .setThumbnail(options.Play.Thumbnail)
+      .setTitle("Now Playing!")
+      .setDescription(`🎶 Now Playing: **${options.Play.Title}**`)
+      .setTimestamp();
 
-      await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
-
-      const PlayEmbed = new Discord.MessageEmbed()
-        .setColor(Color)
-        .setThumbnail(Play.Thumbnail)
-        .setTitle("Now Playing!")
-        .setDescription(`🎶 Now Playing: **${Play.Title}**`)
-        .setTimestamp();
-
-      await Db.TextChannel.send(PlayEmbed).catch(() =>
-        message.channel.send(`🎶 Now Playing: **${Play.Title}**`)
-      );
+    await Db.TextChannel.send(PlayEmbed).catch(() =>
+      Db.TextChannnel.send(`🎶 Now Playing: **${options.Play.Title}**`)
+    );
   },
   UpdateStream: async function(message, client, Filter, ytdl) {
     const Queue = await client.queue.get(message.guild.id);
@@ -125,15 +145,15 @@ module.exports = {
     Object.keys(Queue.Filters).forEach(FilterName => {
       if (Queue.Filters[FilterName]) {
         EcoderFilters.push(Filters[FilterName]);
-      };
+      }
     });
     let Encoder;
     if (EcoderFilters.length < 1) {
       Encoder = [];
     } else {
       Encoder = ["-af", EcoderFilters.join(",")];
-    };
-    
+    }
+
     const Old = Queue.Bot.dispatcher.streamTime;
 
     const Stream = ytdl(Queue.Songs[0].Link, {
@@ -143,14 +163,15 @@ module.exports = {
       seek: Queue.Bot.dispatcher.streamTime / 1000,
       highWaterMark: 1 << 30
     });
-    
+
     setTimeout(async () => {
       if (Queue.Bot) Queue.Bot.dispatcher.destroy();
       Queue.Bot.dispatcher = Stream;
       Queue.Bot.play(Stream, {
         type: "opus",
         bitrate: "auto"
-      }).on("finish", async () => {
+      })
+        .on("finish", async () => {
           const Shift = await Queue.Songs.shift();
           if (Queue.Loop === true) {
             await Queue.Songs.push(Shift);
@@ -163,11 +184,10 @@ module.exports = {
             "Error: Something Went Wrong From Bot Inside"
           );
         });
-      
+
       Queue.Bot.dispatcher.streamTime += Old;
-      
+
       await Queue.Bot.dispatcher.setVolumeLogarithmic(Queue.Volume / 100);
-      
     }, 1000);
   },
   Objector: async function(Song, message) {

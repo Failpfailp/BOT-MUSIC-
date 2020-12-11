@@ -208,10 +208,11 @@ module.exports = {
     const Database = {
       TextChannel: message.channel,
       VoiceChannel: Channel,
+      Steam: null,
       Bot: Joined,
       Songs: [],
-      Filters: [],
-      Volume: 50,
+      Filters: {},
+      Volume: 100,
       Loop: false,
       Playing: true
     };
