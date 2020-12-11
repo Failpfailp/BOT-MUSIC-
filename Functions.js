@@ -22,12 +22,20 @@ module.exports = {
   Objector: async function(Song, message) {
     const moment = require("moment");
     function FD(duration) {
-      duration = parseInt(duration);
-      if (duration >= 3600000) {
-        return moment(duration).format('H:mm:ss');
-      } else {
-        return moment(duration).format('m:ss');
+      let minutes = Math.floor(duration / 60);
+      let hours = "";
+      if (minutes > 59) {
+        hours = Math.floor(minutes / 60);
+        hours = hours >= 10 ? hours : "0" + hours;
+        minutes = minutes - hours * 60;
+        minutes = minutes >= 10 ? minutes : "0" + minutes;
       };
+      duration = Math.floor(duration % 60);
+      duration = duration >= 10 ? duration : "0" + duration;
+      if (hours != "") {
+        return hours + ":" + minutes + ":" + duration;
+      };
+      return minutes + ":" + duration;
     };
     async function FC(Count) {
       if (Count.length === 4) {
@@ -53,7 +61,7 @@ module.exports = {
       } else {
         return Count;
       }
-    }
+    }''
     return {
       ID: Song.videoId,
       Title: Song.title,

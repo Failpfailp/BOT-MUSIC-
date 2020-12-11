@@ -6,6 +6,7 @@ dependencies:
   fs: 0.0.2
   moment: 2.29.1
   scrape-yt: 1.4.7
+  string-progressbar: 1.0.1
   wio.db: 4.0.9
   youtube-sr: 2.0.4
   ytdl-core: 4.1.4
@@ -1044,6 +1045,10 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
+  /string-progressbar/1.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-smY1/o7XCBHeYtb1XS4sMSv3L3leToTNasPPxrjJq71BCxVX3u1rII+UDQEmUN/dnQbmjTj1xJiN+3xtjq8Esg==
   /string-width/1.0.2:
     dependencies:
       code-point-at: 1.1.0
@@ -1209,6 +1214,7 @@ specifiers:
   fs: ^0.0.2
   moment: ^2.29.1
   scrape-yt: ^1.4.7
+  string-progressbar: ^1.0.1
   wio.db: ^4.0.9
   youtube-sr: ^2.0.4
   ytdl-core: ^4.1.3

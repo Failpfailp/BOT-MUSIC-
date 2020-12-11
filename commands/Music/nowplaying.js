@@ -1,6 +1,7 @@
 const { Default_Prefix, Color } = require("../../config.js");
 const Discord = require("discord.js");
 const db = require("wio.db");
+const Bar = require('string-progressbar');
 
 module.exports = {
   name: "nowplaying",
@@ -18,16 +19,19 @@ module.exports = {
     
     if (!Queue) return message.channel.send("Nothing Is Playing Right Now, Add Some Songs To Queue :D");
     
-    const Song = await Queue.Songs[0];
+    const Song = await Queue.Songs[0], Total = Song.Duration
     
-    const Data = `Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${Song.Author}](${Song.AuthorLink})**\nUpload - **${Song.Upload}**\nViews - **${Song.Views || 0}**\nDuration - **${Song.Duration}**\nAge Restricted - **${Song.Age}**\nAdded By - **${Song.Owner}**`;
+    const Data = `Song - **[${Song.Title}](${Song.Link})**\nCreator - **[${Song.Author}](${Song.AuthorLink})**\nUpload - **${Song.Upload}**\nViews - **${Song.Views || 0}**\nDuration - **${Song.Duration}**\n\n`;
+    
+    
+    
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
     .setThumbnail(Song.Thumbnail)
     .setTitle("Now Playing!")
     .setDescription(Data)
-    .setFooter(`Requested By ${message.author.username}`)
+    .setFooter(`Added By ${Song.Owner}`)
     .setTimestamp();
     
     console.log(message.channel.send(Embed));
