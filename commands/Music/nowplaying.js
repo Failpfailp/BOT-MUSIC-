@@ -31,12 +31,19 @@ module.exports = {
     }](${Song.AuthorLink})**\nUpload - **${
       Song.Upload
     }**\nViews - **${Song.Views || 0}**\nDuration - **${Total}**\n`;
-
-    const Secs = Math.round((Time - Seconds)), Secon = (Time / 1000).toFixed(0);
     
-    console.log(Secs);
+    const Remaining = Math.round((Time / 1000));
+    const Index = Math.round((Time / Seconds) * 15);
+    const Bar = "▬▬▬▬▬▬▬▬▬▬▬▬▬▬".split("");
+    let ShowBar;
     
-    const ShowBar = await Bar(Seconds, Secs), Remaining = await FD(Secon);
+    if (Index >= 1 && Index <= 15) {
+      ShowBar = Bar.splice(Index, 0, "🔵");
+    } else {
+      ShowBar = "🔵▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+    };
+    
+    
 
     function FD(duration) {
       let minutes = Math.floor(duration / 60);
@@ -59,7 +66,7 @@ module.exports = {
       .setColor(Color)
       .setThumbnail(Song.Thumbnail)
       .setTitle("Now Playing!")
-      .setDescription(Data + ShowBar + "\n\n" + Remaining + "\n" + Song.Duration)
+      .setDescription(Data + "\n\n" + Remaining + "\n" + Song.Duration)
       .setFooter(`Added By ${Song.Owner}`)
       .setTimestamp();
 
