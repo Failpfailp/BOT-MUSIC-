@@ -41,6 +41,7 @@ module.exports = {
       mcompand: "mcompand"
     };
     const Db = await client.queue.get(message.guild.id);
+    const Seek = options.Filter ? Db.Bot.dispatcher.streamTime : undefined;
 
     if (!options.Play) {
       await Db.VoiceChannel.leave();
@@ -59,7 +60,7 @@ module.exports = {
             "Server Queue Has Been Ended, Thanks For Listening To Me <3"
           )
         );
-    }
+    };
 
     Db.Bot.on("disconnect", async () => {
       await client.queue.delete(message.guild.id);
@@ -76,19 +77,38 @@ module.exports = {
       Encoder = [];
     } else {
       Encoder = ["-af", EcoderFilters.join(",")];
-    }
+    };
+    
+    const Steam = Ytdl(Db.Songs[0].Link, {
+        filter: "audioonly",
+        quality: "highestaudio",
+        opusEncoded: true,
+        seek: Seek / 1000,
+        Encoder,
+        highWaterMark: 1 << 30
+    });
+    
+    setTimeout(async () => {
+       if (Db.Steam) Db.Steam.destroy();
+       Db.Steam = Steam;
+       
+       await Db.Bot.play(Steam, {
+         type: "opus",
+         birate: "auto"
+       });
+      
+      
+    }, 1000);
 
-    const Dispatcher = await Db.Bot.play(
+    const Dispatcher = Db.Bot.play(
       await Ytdl(String(options.Play.Link), {
         filter: "audioonly",
         opusEncoded: true,
         quality: "highestaudio",
+        seek: Seek / 1000,
         Encoder,
         highWaterMark: 1 << 30
-      }),
-      {
-        type: "opus"
-      }
+      })
     )
       .on("finish", async () => {
         const Shift = await Db.Songs.shift();
@@ -103,6 +123,8 @@ module.exports = {
           "Error: Something Went Wrong From Bot Inside"
         );
       });
+    
+    Db.Steam = Dispatcher;
 
     await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
 
