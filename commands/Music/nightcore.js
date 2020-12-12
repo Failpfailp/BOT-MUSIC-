@@ -22,7 +22,7 @@ module.exports = {
 
     const Embed = new Discord.MessageEmbed()
       .setColor(Color)
-      .setTitle("Scuess")
+      .setTitle("Success")
       .setDescription(`🎶 Nightcore Has Been ${Queue.Filters["nightcore"] ? "Disabled" : "Enabled"}`)
       .setTimestamp();
     
