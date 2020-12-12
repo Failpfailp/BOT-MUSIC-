@@ -1,4 +1,5 @@
 const { Default_Prefix, Color } = require("../../config.js");
+const { Splitter } = require("../../Functions.js");
 const Discord = require("discord.js");
 const Finder = require("lyrics-finder");
 
@@ -14,23 +15,17 @@ module.exports = {
     
     if (!Queue && !args[0]) return message.channel.send("Please Give Something To Search!");
     
-    let Lyric, Lyrics;
+    let Lyric, Lyrics, Thing = Queue ? Queue.Songs[0].Title : args.join(" ");
     
     try {
-      Lyric = await Finder(Queue.Songs[0].Title || args.join(" "), '');
-      if (!Lyric) return message.channel.send("No Lyrics Found - " + Queue.Songs[0].Title || args.join(" "));
+      Lyric = await Finder(Thing, '');
+      if (!Lyric) return message.channel.send("No Lyrics Found - " + Thing);
     } catch (error) {
-      return message.channel.send("No Lyrics Found - " + Queue.Songs[0].Title || args.join(" "));
+      return message.channel.send("No Lyrics Found - " + Thing);
     };
     
-    Lyrics = await Lyric.split('').join("\n");
+    Lyrics = await Lyric.split(/ +/g).join("+");
     
-    const Embed = new Discord.MessageEmbed()
-    .setColor(Color)
-    .setTitle("Sucess")
-    .setDescription("🎶 Joined The Voice Channel, Use Play Command To Play Music!")
-    .setTimestamp();
-    
-    return message.channel.send(Embed).catch(() => message.channel.send("🎶 Joined The Voice Channel, Use Play Command To Play Music!"));
+    return message.channel.send("```\n" + Lyrics + "\n```", { split: { char: "+" }} ).catch(console.error);
   }
 };
