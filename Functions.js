@@ -97,26 +97,25 @@ module.exports = {
       const Dispatcher = await Db.Bot.play(Steam, {
         type: "opus",
         birate: "auto"
-      })
-        .on("finish", async () => {
-          const Shift = await Db.Songs.shift();
-          if (Db.Loop === true) {
-            await Db.Songs.push(Shift);
-          } else {
-            await module.exports.Player(message, Discord, client, Ytdl, {
-              Play: Db.Songs[0],
-              Color: require("./config.js").Color
-            });
-          }
-        })
-        .on("error", async error => {
-          await console.log(error);
-          return message.channel.send(
-            "Error: Something Went Wrong From Bot Inside"
-          );
-        })
-
+      });
+      
+      if (Seek) {
+         Db.Bot.dispatcher.streamTime = Seek;
+      };
+      
       await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
+      
+      Db.Bot.dispatcher.on("finish", async () => {
+        const Shift = await Db.Songs.shift();
+        if (Db.Loop === true) {
+          await Db.Songs.push(Shift);
+        } else {
+          await module.exports.Player(message, Discord, client, Ytdl, { Play: Db.Songs[0], Color: require("./config.js").Color })
+        };
+      }).on("error", async error => {
+        await console.log(error);
+        return Db.TextChannel.send("Error: Something Went Wrong From Bot Inside");
+      });
 
       if (!Seek) {
         const PlayEmbed = new Discord.MessageEmbed()
