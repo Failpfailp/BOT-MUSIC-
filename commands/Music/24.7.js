@@ -11,17 +11,19 @@ module.exports = {
   run: async (client, message, args) => {
     if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.channel.send("You Don't Have Enough Permission To Use This Command - Manage Channels");
     
-    let Oned = await db.fetch(`24_${message.guild.id}`);
+    let Oned = await client.queue.get(message.guild.id);
+    
+    if (!Oned) return message.channel.send("🎶 No Queue Found, Please Add Some Songs & Try Again");
 
     const Embed = new Discord.MessageEmbed()
       .setColor(Color)
       .setTitle("Success")
-      .setDescription(`🎶 24/7 Has Been ${Oned ? "Disabled" : "Enabled"}`)
+      .setDescription(`🎶 24/7 Has Been ${Oned.Always === false ? "Enabled" : "Disabled"}`)
       .setTimestamp();
     
-    await db.set(`24_${message.guild.id}`, )
+    Oned.Always = Oned.Always === false ? true : false;
 
-    return message.channel.send(Embed).catch(() => message.channel.send(`🎶 24/7 Has Been ${Oned ? "Disabled" : "Enabled"}`));
+    return message.channel.send(Embed).catch(() => message.channel.send(`🎶 24/7 Has Been ${Oned.Always === false ? "Enabled" : "Disabled"}`));
     
   }
 };

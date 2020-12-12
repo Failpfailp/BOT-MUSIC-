@@ -4,7 +4,7 @@ const db = require("wio.db");
 
 module.exports = {
   name: "leave",
-  aliases: ["goaway"],
+  aliases: ["goaway", "disconnect"],
   category: "Music",
   description: "Leave The Voice Channel!",
   usage: "Leave",

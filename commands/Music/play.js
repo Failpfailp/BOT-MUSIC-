@@ -211,6 +211,7 @@ module.exports = {
       Filters: {},
       Volume: 100,
       Loop: false,
+      Always: false,
       Playing: true
     };
 

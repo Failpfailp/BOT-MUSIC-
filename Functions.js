@@ -46,10 +46,10 @@ module.exports = {
       Seek = Db.Bot.dispatcher.streamTime;
     } else {
       Seek = undefined;
-    }
+    };
 
     if (!options.Play) {
-      if (!options.db.fetch(`24_${message.guild.id}`)) {
+      if (!Db["Always"]) {
       await Db.VoiceChannel.leave();
       };
       await client.queue.delete();
