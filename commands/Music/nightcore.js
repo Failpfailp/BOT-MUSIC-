@@ -1,5 +1,5 @@
 const { Default_Prefix, Color } = require("../../config.js");
-const { Player } = require("../../config.js")
+const { Player } = require("../../Functions.js")
 const Discord = require("discord.js"), Ytdl = require("discord-ytdl-core")
 
 module.exports = {
@@ -27,9 +27,10 @@ module.exports = {
       .setTimestamp();
     
     Queue.Filters["nightcore"] = true;
-
-    message.channel.send(Embed).catch(() => message.channel.send(`🎶 Nightcore Has Been ${Queue.Filters["nightcore"] ? "Enabled" : "Disabled"}`));
     
-    await Player(message, Discord, client, Ytdl, { Filter: { nightcore: true } })
+    await Player(message, Discord, client, Ytdl, { Filter: true, Play: Queue.Songs[0], Color: Color });
+
+    return message.channel.send(Embed).catch(() => message.channel.send(`🎶 Nightcore Has Been ${Queue.Filters["nightcore"] ? "Enabled" : "Disabled"}`));
+    
   }
 };

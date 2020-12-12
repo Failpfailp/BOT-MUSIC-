@@ -77,7 +77,9 @@ module.exports = {
       Encoder = [];
     } else {
       Encoder = ["-af", EcoderFilters.join(",")];
-    }
+    };
+    
+    console.log(Encoder);
 
     const Steam = Ytdl(Db.Songs[0].Link, {
       filter: "audioonly",
