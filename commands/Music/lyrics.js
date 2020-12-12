@@ -15,7 +15,7 @@ module.exports = {
     
     if (!Queue && !args[0]) return message.channel.send("Please Give Something To Search!");
     
-    let Lyric, Lyrics, Thing = Queue ? Queue.Songs[0].Title : args.join(" ");
+    let Lyric, Thing = Queue ? Queue.Songs[0].Title : args.join(" ");
     
     try {
       Lyric = await Finder(Thing, '');
@@ -24,8 +24,8 @@ module.exports = {
       return message.channel.send("No Lyrics Found - " + Thing);
     };
     
-    Lyrics = await Lyric.split(/ +/g).join("+");
+    const Data = await Splitter(Lyric, message);
     
-    return message.channel.send("```\n" + Lyrics + "\n```", { split: { char: "+" }} ).catch(console.error);
+    return message.channel.send(Data.join("\n"), { split: { char: "\n" }});
   }
 };
