@@ -20,7 +20,7 @@ module.exports = {
         "Nothing Is Playing Right Now, Add Some Songs To Queue :D"
       );
     
-    const Filter = args[0];
+    let Filter = args[0];
     
     const Filters = ["8d", "nightcore", "bassboost", "vaporwave", "phaser", "tremolo", "vibrato", "treble", "normalizer", "surrounding", "pulsator", "subboost", "karaoke", "flanger", "haas", "gate", "mcompand"]
     

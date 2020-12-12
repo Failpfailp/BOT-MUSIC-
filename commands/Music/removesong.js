@@ -22,9 +22,7 @@ module.exports = {
     
     let Content = args.join(" "), Song;
     
-    Queue.Songs = Queue.Songs.reverse();
-    
-    Song = await Queue.Songs.find(Son => Son.Title.includes(Content));
+    Song = await Queue.Songs.find(Son => Son.Title.toLowerCase().includes(Content.toLowerCase()));
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
@@ -33,15 +31,16 @@ module.exports = {
     .setTimestamp();
     
     if (Song) {
-      const Index = await Queue.Songs.indexOf(Song);
+      const Index = await Queue.Songs.indexOf(Song), Title = await Queue.Songs[0].Title;
       await Queue.Songs.splice(Index, 1);
-      Queue.Songs = Queue.Songs.reverse();
+      if (Queue.Songs[0].Title !== Title) Queue.Bot.dispatcher.end();
       return message.channel.send(Embed).catch(() => message.channel.send("🎶 Song Has Been Removed!"));
     } else {
+      const Title = await Queue.Songs[0].Title;
       Song = await Queue.Songs[parseInt(args[0])];
       if (!Song) return message.channel.send("No Song Found!");
       await Queue.Songs.splice(parseInt(args[0]), 1);
-      Queue.Songs = Queue.Songs.reverse();
+      if (Queue.Songs[0].Title !== Title) Queue.Bot.dispatcher.end();
       return message.channel.send(Embed).catch(() => message.channel.send("🎶 Song Has Been Removed!"))
     };
   }
