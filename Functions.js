@@ -86,7 +86,7 @@ module.exports = {
       quality: "highestaudio",
       opusEncoded: true,
       seek: Seek / 1000,
-      Encoder,
+      encoderArgs: Encoder,
       highWaterMark: 1 << 30
     });
 

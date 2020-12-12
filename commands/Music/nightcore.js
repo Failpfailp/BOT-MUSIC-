@@ -23,14 +23,14 @@ module.exports = {
     const Embed = new Discord.MessageEmbed()
       .setColor(Color)
       .setTitle("Scuess")
-      .setDescription(`🎶 Nightcore Has Been ${Queue.Filters["nightcore"] ? "Enabled" : "Disabled"}`)
+      .setDescription(`🎶 Nightcore Has Been ${Queue.Filters["nightcore"] ? "Disabled" : "Enabled"}`)
       .setTimestamp();
     
-    Queue.Filters["nightcore"] = true;
+    Queue.Filters["nightcore"] = Queue.Filters["nightcore"] ? false : true;
     
     await Player(message, Discord, client, Ytdl, { Filter: true, Play: Queue.Songs[0], Color: Color });
 
-    return message.channel.send(Embed).catch(() => message.channel.send(`🎶 Nightcore Has Been ${Queue.Filters["nightcore"] ? "Enabled" : "Disabled"}`));
+    return message.channel.send(Embed).catch(() => message.channel.send(`🎶 Nightcore Has Been ${Queue.Filters["nightcore"] ? "Disabled" : "Enabled"}`));
     
   }
 };
