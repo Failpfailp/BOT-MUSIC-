@@ -41,7 +41,7 @@ module.exports = {
       mcompand: "mcompand"
     };
     const Db = await client.queue.get(message.guild.id);
-    const Seek = options.Filter ? Db.Bot.dispatcher.streamTime : undefined;
+    const Seek = Db.Filters[options.Filter] ? Db.Bot.dispatcher.streamTime : undefined;
 
     if (!options.Play) {
       await Db.VoiceChannel.leave();
@@ -78,8 +78,6 @@ module.exports = {
     } else {
       Encoder = ["-af", EcoderFilters.join(",")];
     };
-    
-    console.log(Encoder);
 
     const Steam = Ytdl(Db.Songs[0].Link, {
       filter: "audioonly",
@@ -119,7 +117,7 @@ module.exports = {
       await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
 
       if (Seek) {
-        Db.Bot.dispatcher.streamTime += Seek;
+        Db.Bot.dispatcher.streamTime = Seek;
       };
       
       if (!Seek) {

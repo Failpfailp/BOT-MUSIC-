@@ -28,7 +28,7 @@ module.exports = {
     
     Queue.Filters["nightcore"] = Queue.Filters["nightcore"] ? false : true;
     
-    await Player(message, Discord, client, Ytdl, { Filter: true, Play: Queue.Songs[0], Color: Color });
+    await Player(message, Discord, client, Ytdl, { Filter: "nightcore", Play: Queue.Songs[0], Color: Color });
 
     return message.channel.send(Embed).catch(() => message.channel.send(`🎶 Nightcore Has Been ${Queue.Filters["nightcore"] ? "Disabled" : "Enabled"}`));
     

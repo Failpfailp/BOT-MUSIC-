@@ -47,7 +47,6 @@ module.exports = {
     const Adder = await FD(Sec);
     const Index = Math.round((Time / AllTime) * 20);
     const Bar = "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".split("");
-    console.log(Bar.length)
     let ShowBar;
 
     if (Index >= 1 && Index <= 20) {
@@ -72,6 +71,6 @@ module.exports = {
       .setFooter(`Added By ${Song.Owner}`)
       .setTimestamp();
 
-    console.log(message.channel.send(Embed));
+    return message.channel.send(Embed);
   }
 };
