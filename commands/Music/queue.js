@@ -20,7 +20,7 @@ module.exports = {
         "Nothing Is Playing Right Now, Add Some Songs To Queue :D"
       );
     
-    const Sort = await Queue.Songs.map((Song, Position) => `${(Position + 1) === 1 ? "Now Playing" : Position + 1} | ${Song.Title.length > 60 ? Song.Title.slice(0, 60) + "..." : Song.Title}`).join("\n");
+    const Sort = await Queue.Songs.map((Song, Position) => `${(Position + 1) === 1 ? "Now Playing" : (Position - 1) === 0 ? 1 : (Position)} | ${Song.Title.length > 60 ? Song.Title.slice(0, 60) + "..." : Song.Title}`).join("\n");
     
     if (!Sort) return message.channel.send("Nothing Is Playing Right Now, Add Some Songs To Queue :D");
 

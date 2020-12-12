@@ -22,6 +22,8 @@ module.exports = {
     
     let Content = args.join(" "), Song;
     
+    Queue.Songs = Queue.Songs.reverse();
+    
     Song = await Queue.Songs.find(Son => Son.Title.includes(Content));
     
     const Embed = new Discord.MessageEmbed()
@@ -33,11 +35,13 @@ module.exports = {
     if (Song) {
       const Index = await Queue.Songs.indexOf(Song);
       await Queue.Songs.splice(Index, 1);
+      Queue.Songs = Queue.Songs.reverse();
       return message.channel.send(Embed).catch(() => message.channel.send("🎶 Song Has Been Removed!"));
     } else {
       Song = await Queue.Songs[parseInt(args[0])];
       if (!Song) return message.channel.send("No Song Found!");
-      await Queue.Songs.splice(parseInt(args[0] + 1), 1);
+      await Queue.Songs.splice(parseInt(args[0]), 1);
+      Queue.Songs = Queue.Songs.reverse();
       return message.channel.send(Embed).catch(() => message.channel.send("🎶 Song Has Been Removed!"))
     };
   }
