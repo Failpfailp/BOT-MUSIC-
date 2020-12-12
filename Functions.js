@@ -143,11 +143,6 @@ module.exports = {
         });
     }, 1500);
   },
-  async Splitter(Song, message) {
-    if (Song.length < 2000) {
-      return [Song];
-    } else if (Son)
-  },
   async Objector(Song, message) {
     function FD(duration) {
       let minutes = Math.floor(duration / 60);
