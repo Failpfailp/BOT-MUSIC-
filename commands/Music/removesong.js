@@ -24,9 +24,25 @@ module.exports = {
     
     Song = await Queue.Songs.find(Son => Son.Title.includes(Content));
     
-    if (!Song) {
-      
+    if (Song) {
+      const Index = await Queue.Songs.indexOf(Song);
+      await Queue.Songs.splice(Index - 1, 1);
+      return 
+    } else {
+      Song = await Queue.Songs[parseInt(args[0])];
+      if (!Song) return message.channel.send("No Song Found!");
+      await Queue.Songs.splice(parseInt(args[0] - 1), 1);
+      return message.channel.send(Embed).catch(() => message.channel.send())
     }
+    
+    if (!Song) {
+      try {
+        Song = await Queue.Songs[parseInt(args[0] - 1)];
+        if (!Song) return message.channel.send("No Song Found!");
+      } catch (error) {
+        return message.channel.send("No Song Found!");
+      };
+    };
     
     Queue.Playing = false;
     Queue.Bot.dispatcher.pause();
