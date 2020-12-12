@@ -31,7 +31,7 @@ module.exports = {
     const Embed = new Discord.MessageEmbed()
       .setColor(Color)
       .setTitle("Success")
-      .setDescription(`🎶 ${Filter.charAt(0).toUpperCase() + Filter.slice(1)} Has Been ${Queue.Filters["nightcore"] ? "Disabled" : "Enabled"}`)
+      .setDescription(`🎶 ${Filter.charAt(0).toUpperCase() + Filter.slice(1)} Has Been ${Queue.Filters[Filter] ? "Disabled" : "Enabled"}`)
       .setTimestamp();
     
     Filter = Filter.toLowerCase();
