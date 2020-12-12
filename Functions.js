@@ -41,7 +41,9 @@ module.exports = {
       mcompand: "mcompand"
     };
     const Db = await client.queue.get(message.guild.id);
-    const Seek = Db.Filters[options.Filter] ? Db.Bot.dispatcher.streamTime : undefined;
+    const Seek = Db.Filters[options.Filter]
+      ? Db.Bot.dispatcher.streamTime
+      : undefined;
 
     if (!options.Play) {
       await Db.VoiceChannel.leave();
@@ -70,14 +72,14 @@ module.exports = {
     Object.keys(Db.Filters).forEach(FilterName => {
       if (Db.Filters[FilterName]) {
         EcoderFilters.push(Filters[FilterName]);
-      };
+      }
     });
     let Encoder;
     if (EcoderFilters.length < 1) {
       Encoder = [];
     } else {
       Encoder = ["-af", EcoderFilters.join(",")];
-    };
+    }
 
     const Steam = Ytdl(Db.Songs[0].Link, {
       filter: "audioonly",
@@ -112,27 +114,22 @@ module.exports = {
           return message.channel.send(
             "Error: Something Went Wrong From Bot Inside"
           );
-        });
+        })
 
       await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
 
-      if (Seek) {
-        Db.Bot.dispatcher.streamTime = Seek;
-      };
-      
       if (!Seek) {
+        const PlayEmbed = new Discord.MessageEmbed()
+          .setColor(options.Color)
+          .setThumbnail(options.Play.Thumbnail)
+          .setTitle("Now Playing!")
+          .setDescription(`🎶 Now Playing: **${options.Play.Title}**`)
+          .setTimestamp();
 
-      const PlayEmbed = new Discord.MessageEmbed()
-        .setColor(options.Color)
-        .setThumbnail(options.Play.Thumbnail)
-        .setTitle("Now Playing!")
-        .setDescription(`🎶 Now Playing: **${options.Play.Title}**`)
-        .setTimestamp();
-
-      await Db.TextChannel.send(PlayEmbed).catch(() =>
-        Db.TextChannnel.send(`🎶 Now Playing: **${options.Play.Title}**`)
-      );
-      };
+        await Db.TextChannel.send(PlayEmbed).catch(() =>
+          Db.TextChannnel.send(`🎶 Now Playing: **${options.Play.Title}**`)
+        );
+      }
     }, 1000);
   },
   async Objector(Song, message) {
