@@ -20,10 +20,10 @@ module.exports = {
         "Nothing Is Playing Right Now, Add Some Songs To Queue :D"
       );
     
-    const Current = Queue.Songs.shift();
+    const Current = await Queue.Songs.shift();
     
     Queue.Songs = Queue.Songs.sort(() => Math.random() - 0.05);
-    Queue.Songs.unshift(Current);
+    await Queue.Songs.unshift(Current);
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
@@ -31,6 +31,6 @@ module.exports = {
     .setDescription("🎶 Queue Has Been Shuffled")
     .setTimestamp();
     
-    return message.channel.send(Embed).then(() => message.channel.send("🎶 Queue Has Been Shuffled"));
+    return message.channel.send(Embed).catch(() => message.channel.send("🎶 Queue Has Been Shuffled"));
   }
 };
