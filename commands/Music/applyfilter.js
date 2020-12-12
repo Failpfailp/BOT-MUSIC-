@@ -19,6 +19,12 @@ module.exports = {
       return message.channel.send(
         "Nothing Is Playing Right Now, Add Some Songs To Queue :D"
       );
+    
+    const Filter = args[0];
+    
+    const Filters = ["8D", "nightcore", "bassboost", "vaporwave", ""]
+    
+    if (!Filter) return message.channel.send("Please Give A Filter - " + Filters.map(fil => fil.charAt(0).toUpperCase() + fil.slice(1)).join(", "));
 
     const Embed = new Discord.MessageEmbed()
       .setColor(Color)

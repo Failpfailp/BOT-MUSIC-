@@ -46,7 +46,7 @@ module.exports = {
       Seek = Db.Bot.dispatcher.streamTime;
     } else {
       Seek = undefined;
-    };
+    }
 
     if (!options.Play) {
       await Db.VoiceChannel.leave();
@@ -65,7 +65,7 @@ module.exports = {
             "Server Queue Has Been Ended, Thanks For Listening To Me <3"
           )
         );
-    };
+    }
 
     Db.Bot.on("disconnect", async () => {
       await client.queue.delete(message.guild.id);
@@ -101,29 +101,11 @@ module.exports = {
         type: "opus",
         birate: "auto"
       });
-      
+
       if (Seek) {
         console.log(true);
         Db.ExtraTime = Seek;
       } else {
-        Db.ExtraTime = 0;
-      };
-      
-      await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
-      
-      Db.Bot.dispatcher.on("finish", async () => {
-        const Shift = await Db.Songs.shift();
-        if (Db.Loop === true) {
-          await Db.Songs.push(Shift);
-        } else {
-          await module.exports.Player(message, Discord, client, Ytdl, { Play: Db.Songs[0], Color: require("./config.js").Color })
-        };
-      }).on("error", async error => {
-        await console.log(error);
-        return Db.TextChannel.send("Error: Something Went Wrong From Bot Inside");
-      });
-
-      if (!Seek) {
         const PlayEmbed = new Discord.MessageEmbed()
           .setColor(options.Color)
           .setThumbnail(options.Play.Thumbnail)
@@ -134,7 +116,29 @@ module.exports = {
         await Db.TextChannel.send(PlayEmbed).catch(() =>
           Db.TextChannnel.send(`🎶 Now Playing: **${options.Play.Title}**`)
         );
-      }
+        Db.ExtraTime = 0;
+      };
+
+      await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
+
+      Db.Bot.dispatcher
+        .on("finish", async () => {
+          const Shift = await Db.Songs.shift();
+          if (Db.Loop === true) {
+            await Db.Songs.push(Shift);
+          } else {
+            await module.exports.Player(message, Discord, client, Ytdl, {
+              Play: Db.Songs[0],
+              Color: require("./config.js").Color
+            });
+          }
+        })
+        .on("error", async error => {
+          await console.log(error);
+          return Db.TextChannel.send(
+            "Error: Something Went Wrong From Bot Inside"
+          );
+        });
     }, 1500);
   },
   async Objector(Song, message) {
