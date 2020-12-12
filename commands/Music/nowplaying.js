@@ -22,7 +22,7 @@ module.exports = {
     const Song = await Queue.Songs[0],
       Total = Song.Duration,
       Seconds = Song.Seconds,
-      Time = Queue.Bot.dispatcher.streamTime;
+      Time = parseInt(Queue.Bot.dispatcher.streamTime + Queue.ExtraTime);
 
     function FD(duration) {
       let minutes = Math.floor(duration / 60);
