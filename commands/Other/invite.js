@@ -10,14 +10,16 @@ module.exports = {
   usage: "Invite",
   run: async (client, message, args) => {
     
-    const Invite = `https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot`, Owner = `<@${Owner}>`, COder = `Legendary Emoji#1742`;
+    const Invite = `https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot`, Owner = `<@${Owner}>`, Dev = `Legendary Emoji#1742`;
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
     .setTitle("Success")
-    .setDescription("🎶 Joined The Voice Channel, Use Play Command To Play Music!")
+    .addField("Invite Me", `[Click Me](Invite)`, true)
+    .addField("Owner", Owner, true)
+    .addField("Developer", Dev, true)
     .setTimestamp();
     
-    return message.channel.send(Embed).catch(() => message.channel.send("🎶 Joined The Voice Channel, Use Play Command To Play Music!"));
+    return message.channel.send(Embed).catch(() => message.channel.send("Invite Link - " + Invite));
   }
 };
