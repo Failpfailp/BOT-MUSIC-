@@ -22,21 +22,23 @@ module.exports = {
     
     const Filter = args[0];
     
-    const Filters = ["8D", "nightcore", "bassboost", "vaporwave", ""]
+    const Filters = ["8D", "nightcore", "bassboost", "vaporwave", "phaser", "tremolo", "vibrato", "treble", "normalizer", "surrounding", "pulsator", "subboost", "karaoke", "flanger", "haas", "gate", "mcompand"]
     
     if (!Filter) return message.channel.send("Please Give A Filter - " + Filters.map(fil => fil.charAt(0).toUpperCase() + fil.slice(1)).join(", "));
-
+    
+    if (!Filters.find(Fil => Fil === Filter.toLowerCase())) return message.channel.send("No Filter Found - " + Filter.charAt(0).toUpperCase() + Filter.slice(1));
+    
     const Embed = new Discord.MessageEmbed()
       .setColor(Color)
       .setTitle("Success")
-      .setDescription(`🎶 Nightcore Has Been ${Queue.Filters["nightcore"] ? "Disabled" : "Enabled"}`)
+      .setDescription(`🎶 ${Filter.charAt(0).toUpperCase() + Filter.slice(1)} Has Been ${Queue.Filters["nightcore"] ? "Disabled" : "Enabled"}`)
       .setTimestamp();
     
-    Queue.Filters["nightcore"] = Queue.Filters["nightcore"] ? false : true;
+    Queue.Filters[Filter] = Queue.Filters[Filter] ? false : true;
     
-    await Player(message, Discord, client, Ytdl, { Filter: "nightcore", Play: Queue.Songs[0], Color: Color });
+    await Player(message, Discord, client, Ytdl, { Filter: Filter, Play: Queue.Songs[0], Color: Color });
 
-    return message.channel.send(Embed).catch(() => message.channel.send(`🎶 Nightcore Has Been ${Queue.Filters["nightcore"] ? "Disabled" : "Enabled"}`));
+    return message.channel.send(Embed).catch(() => message.channel.send(`🎶 ${Filter.charAt(0).toUpperCase() + Filter.slice(1)} Has Been ${Queue.Filters[Filter] ? "Disabled" : "Enabled"}`));
     
   }
 };

@@ -42,11 +42,11 @@ module.exports = {
     
     if (args[0] === "on") {
       Queue.Loop = true;
-      Embeded.setDescription("Loop Has Been Enabled!")
+      Embeded.setDescription("🎶 Loop Has Been Enabled!")
       return message.channel.send(Embeded).catch(() => message.channel.send("Loop Has Been Enabled!"))
     } else {
       Queue.Loop = false;
-      Embeded.setDescription("Loop Has Been Disabled!");
+      Embeded.setDescription("🎶 Loop Has Been Disabled!");
       return message.channel.send(Embeded).catch(() => message.channel.send("Loop Has Been Disabled!"));
     };
   }
