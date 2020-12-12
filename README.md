@@ -22,8 +22,8 @@ By Donating, You Will Help Me To Maintain This Bot!
 
 ### License
 
-- I Will Get Your Ass If You Ever Say **This Is Your Bot Or Smth**
+- I Will Get Your Ass If You Ever Say **This Is My Bot & Coded By Me Or Smth**
 
-- If You Don't Say That Then Its Okay, You Can Use It (Please Give Credit If YOu Can) :D
+- If You Don't Say That Then Its Okay, You Can Use It (Please Give Credit If You Can) :D
 
 - Mit License

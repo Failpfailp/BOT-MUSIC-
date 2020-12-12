@@ -24,8 +24,8 @@ module.exports = {
       return message.channel.send("No Lyrics Found - " + Thing);
     };
     
-    Lyric = Lyric.replace(/(.{5})/g,"\n1\n")
+    Lyric = await Lyric.replace(/(.{2045})/g,"\n1\n");
     
-    return message.channel.send(Data.join("\n"), { split: { char: "\n" }});
+    return message.channel.send(Lyric, { split: { char: "\n" }});
   }
 };
