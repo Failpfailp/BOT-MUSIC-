@@ -9,7 +9,7 @@ client.queue = new Map();
 
 client.on("ready", async () => {
   console.log(`Bot Is Ready To Go!\nTag: ${client.user.tag}`);
-  client.user.setActivity(`New Members!`, { type: "WATCHING" });
+  client.user.setActivity(`Music With Members!`, { type: "PLAYING" });
 });
 
 let modules = ["Config", "Music", "Other"];
