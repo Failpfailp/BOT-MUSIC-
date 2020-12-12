@@ -100,6 +100,7 @@ module.exports = {
       });
       
       if (Seek) {
+        console.log(true);
          Db.Bot.dispatcher.streamTime = Seek;
       };
       
@@ -129,7 +130,7 @@ module.exports = {
           Db.TextChannnel.send(`🎶 Now Playing: **${options.Play.Title}**`)
         );
       }
-    }, 1000);
+    }, 1500);
   },
   async Objector(Song, message) {
     function FD(duration) {
