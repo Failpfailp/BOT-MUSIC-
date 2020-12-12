@@ -66,8 +66,4 @@ client.on("message", async message => {
   }
 });
 
-if (false === false) {
-
 client.login(Token).catch(() => console.log(`Invalid Token Is Provided - Please Give Valid Token!`));
-  
-}

@@ -8,14 +8,6 @@
 
 - Please Go To Config.js & Fill Information & Start The Bot (**node .**) :D
 
-### Donate
-
-By Donating, You Will Help Me To Maintain This Bot!
-
-- [Paypal](https://www.paypal.com/paypalme/legendemoji)
-- [Patreon](https://www.patreon.com/LegendaryEmoji)
-- [Ko-Fi](https://ko-fi.com/LegendaryEmoji)
-
 ### Problems
 
 - Join Support Server - [Click Me](https://discord.gg/umMpnqS)
@@ -26,6 +18,14 @@ By Donating, You Will Help Me To Maintain This Bot!
 - [Github (Filters :D)](https://github.com)
 - [Stackoverflow (Lyrics, Etc)](https://stackoverflow.com)
 - [Google (Friend)](https://google.com)
+
+### Donate
+
+By Donating, You Will Help Me To Maintain This Bot!
+
+- [Paypal](https://www.paypal.com/paypalme/legendemoji)
+- [Patreon](https://www.patreon.com/LegendaryEmoji)
+- [Ko-Fi](https://ko-fi.com/LegendaryEmoji)
 
 ### License
 

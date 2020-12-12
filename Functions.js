@@ -27,10 +27,7 @@ module.exports = {
       phaser: "aphaser=in_gain=0.4",
       treble: "treble=g=5",
       normalizer: "dynaudnorm=f=200",
-      flanger: "flanger",
-      gate: "agate",
-      haas: "haas",
-      mcompand: "mcompand"
+      flanger: "flanger"
     };
     const Db = await client.queue.get(message.guild.id);
     let Seek;
