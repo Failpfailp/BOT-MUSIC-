@@ -22,7 +22,7 @@ module.exports = {
     
     const Current = await Queue.Songs.shift();
     
-    Queue.Songs = Queue.Songs.sort(() => Math.random() - 0.05);
+    Queue.Songs = Queue.Songs.sort(() => Math.random() - 0.5);
     await Queue.Songs.unshift(Current);
     
     const Embed = new Discord.MessageEmbed()
