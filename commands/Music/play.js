@@ -1,5 +1,5 @@
 const { Default_Prefix, Color } = require("../../config.js");
-const { GetRegxp, Linker, Objector } = require("../../Functions.js");
+const { GetRegxp, Linker, Objector, Player } = require("../../Functions.js");
 const Discord = require("discord.js");
 const Sr = require("youtube-sr");
 const syt = require("scrape-yt");
@@ -225,87 +225,8 @@ module.exports = {
       await Database.Songs.push(Song);
     };
 
-    const Player = async Play => {
-      const Db = await client.queue.get(message.guild.id);
-
-      if (!Play) {
-        await Db.VoiceChannel.leave();
-        await client.queue.delete();
-        const Embeded = new Discord.MessageEmbed()
-          .setColor(Color)
-          .setTitle("Queue Ended!")
-          .setDescription(
-            "Server Queue Has Been Ended, Thanks For Listening To Me <3"
-          )
-          .setTimestamp();
-        return message.channel
-          .send(Embeded)
-          .catch(() =>
-            message.channel.send(
-              "Server Queue Has Been Ended, Thanks For Listening To Me <3"
-            )
-          );
-      }
-
-      Db.Bot.on("disconnect", async () => {
-        await client.queue.delete(message.guild.id);
-      });
-
-      const EcoderFilters = [];
-      Object.keys(Db.Filters).forEach(FilterName => {
-        if (Db.Filters[FilterName]) {
-          EcoderFilters.push(Filters[FilterName]);
-        }
-      });
-      let Encoder;
-      if (EcoderFilters.length < 1) {
-        Encoder = [];
-      } else {
-        Encoder = ["-af", EcoderFilters.join(",")];
-      };
-
-      const Dispatcher = await Db.Bot.play(
-        await Ytdl(String(Play.Link), {
-          filter: "audioonly",
-          opusEncoded: true,
-          quality: "highestaudio",
-          Encoder,
-          highWaterMark: 1 << 30
-        }),
-        {
-          type: "opus"
-        }
-      )
-        .on("finish", async () => {
-          const Shift = await Db.Songs.shift();
-          if (Db.Loop === true) {
-            await Db.Songs.push(Shift);
-          }
-          await Player(Db.Songs[0]);
-        })
-        .on("error", async error => {
-          await console.log(error);
-          return message.channel.send(
-            "Error: Something Went Wrong From Bot Inside"
-          );
-        });
-
-      await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
-
-      const PlayEmbed = new Discord.MessageEmbed()
-        .setColor(Color)
-        .setThumbnail(Play.Thumbnail)
-        .setTitle("Now Playing!")
-        .setDescription(`🎶 Now Playing: **${Play.Title}**`)
-        .setTimestamp();
-
-      await Db.TextChannel.send(PlayEmbed).catch(() =>
-        message.channel.send(`🎶 Now Playing: **${Play.Title}**`)
-      );
-    };
-
     try {
-      await Player(Database.Songs[0]);
+      await Player(message, Discord, client, Ytdl, { Play: Database.Songs[0], Color: Color } );
     } catch (error) {
       console.log(error);
       await client.queue.delete(message.guild.id);

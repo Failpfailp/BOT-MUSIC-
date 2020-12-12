@@ -60,7 +60,7 @@ module.exports = {
             "Server Queue Has Been Ended, Thanks For Listening To Me <3"
           )
         );
-    };
+    }
 
     Db.Bot.on("disconnect", async () => {
       await client.queue.delete(message.guild.id);
@@ -70,60 +70,69 @@ module.exports = {
     Object.keys(Db.Filters).forEach(FilterName => {
       if (Db.Filters[FilterName]) {
         EcoderFilters.push(Filters[FilterName]);
-      }
+      };
     });
     let Encoder;
     if (EcoderFilters.length < 1) {
       Encoder = [];
     } else {
       Encoder = ["-af", EcoderFilters.join(",")];
-    };
-    
-    const Steam = Ytdl(Db.Songs[0].Link, {
-        filter: "audioonly",
-        quality: "highestaudio",
-        opusEncoded: true,
-        seek: Seek / 1000,
-        Encoder,
-        highWaterMark: 1 << 30
-    });
-    
-    setTimeout(async () => {
-       if (Db.Steam) Db.Steam.destroy();
-       Db.Steam = Steam;
-       
-       const Dispatcher = await Db.Bot.play(Steam, {
-         type: "opus",
-         birate: "auto"
-       }).on("finish", async () => {
-         const Shift = await Db.Songs.shift();
-         if (Db.Loop === true) {
-           await Db.Songs.push(Shift);
-         } else {
-           await module.exports.Player(message, Discord, client, Ytdl, { Play: Db.Songs[0], Color: require("./config.js").Color });
-         };
-       }).on("error", async error => {
-         await console.log(error);
-         return message.channel.send("Error: Something Went Wrong From Bot Inside");
-       });
-      
-        await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
-      
-        if (Seek) {
-          Db.Bot.dispatcher.streamTime += Seek;
-        };
-      
-      const PlayEmbed = new Discord.MessageEmbed()
-      .setColor(options.Color)
-      .setThumbnail(options.Play.Thumbnail)
-      .setTitle("Now Playing!")
-      .setDescription(`🎶 Now Playing: **${options.Play.Title}**`)
-      .setTimestamp();
+    }
 
-    await Db.TextChannel.send(PlayEmbed).catch(() =>
-      Db.TextChannnel.send(`🎶 Now Playing: **${options.Play.Title}**`)
-    );
+    const Steam = Ytdl(Db.Songs[0].Link, {
+      filter: "audioonly",
+      quality: "highestaudio",
+      opusEncoded: true,
+      seek: Seek / 1000,
+      Encoder,
+      highWaterMark: 1 << 30
+    });
+
+    setTimeout(async () => {
+      if (Db.Steam) Db.Steam.destroy();
+      Db.Steam = Steam;
+
+      const Dispatcher = await Db.Bot.play(Steam, {
+        type: "opus",
+        birate: "auto"
+      })
+        .on("finish", async () => {
+          const Shift = await Db.Songs.shift();
+          if (Db.Loop === true) {
+            await Db.Songs.push(Shift);
+          } else {
+            await module.exports.Player(message, Discord, client, Ytdl, {
+              Play: Db.Songs[0],
+              Color: require("./config.js").Color
+            });
+          }
+        })
+        .on("error", async error => {
+          await console.log(error);
+          return message.channel.send(
+            "Error: Something Went Wrong From Bot Inside"
+          );
+        });
+
+      await Dispatcher.setVolumeLogarithmic(Db.Volume / 100);
+
+      if (Seek) {
+        Db.Bot.dispatcher.streamTime += Seek;
+      };
       
+      if (!Seek) {
+
+      const PlayEmbed = new Discord.MessageEmbed()
+        .setColor(options.Color)
+        .setThumbnail(options.Play.Thumbnail)
+        .setTitle("Now Playing!")
+        .setDescription(`🎶 Now Playing: **${options.Play.Title}**`)
+        .setTimestamp();
+
+      await Db.TextChannel.send(PlayEmbed).catch(() =>
+        Db.TextChannnel.send(`🎶 Now Playing: **${options.Play.Title}**`)
+      );
+      };
     }, 1000);
   },
   async Objector(Song, message) {
@@ -166,8 +175,8 @@ module.exports = {
         return `${Count[0]} Trillion`;
       } else {
         return Count;
-      };
-    };
+      }
+    }
     return {
       ID: Song.videoId,
       Title: Song.title,
