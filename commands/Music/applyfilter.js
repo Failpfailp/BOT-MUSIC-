@@ -36,9 +36,7 @@ module.exports = {
     
     Filter = Filter.toLowerCase();
     
-    Queue.Filters[Filter] = Queue.Filters[Filter] ? false : true;
-    
-    console.log(Queue.Filters);
+    Queue.Filters[Filter] = await Queue.Filters[Filter] ? false : true;
     
     await Player(message, Discord, client, Ytdl, { Filter: true, Play: Queue.Songs[0], Color: Color, db: db });
 
