@@ -12,7 +12,7 @@ client.on("ready", async () => {
   client.user.setActivity(`New Members!`, { type: "WATCHING" });
 });
 
-let modules = ["Config", "Music"];
+let modules = ["Config", "Music", "Other"];
 
 modules.forEach(function(module) {
   fs.readdir(`./commands/${module}`, function(error, files) {
