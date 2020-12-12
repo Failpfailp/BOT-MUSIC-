@@ -19,7 +19,13 @@ module.exports = {
     
     try {
       Lyric = await Finder(Thing, '');
-      if (!Lyric) return message.channel.send("No Lyrics Found - " + Thing);
+      if (!Lyric) {
+        if (Queue && args[0]) {
+          Lyric = await Finder(args.join(" "), '');
+        } else {
+          return message.channel.send("No Lyrics Found - " + Thing);
+        };
+      };
     } catch (error) {
       return message.channel.send("No Lyrics Found - " + Thing);
     };

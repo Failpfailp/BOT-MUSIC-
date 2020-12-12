@@ -20,25 +20,7 @@ module.exports = {
         "Nothing Is Playing Right Now, Add Some Songs To Queue :D"
       );
 
-    const Filters = [
-      "8d",
-      "nightcore",
-      "bassboost",
-      "vaporwave",
-      "phaser",
-      "tremolo",
-      "vibrato",
-      "treble",
-      "normalizer",
-      "surrounding",
-      "pulsator",
-      "subboost",
-      "karaoke",
-      "flanger",
-      "haas",
-      "gate",
-      "mcompand"
-    ];
+    const Filters = ["nightcore", "bassboost", "vaporwave", "phaser", "treble", "normalizer", "flanger"];
     const One = [];
 
     await Filters.forEach(async Filter => {
