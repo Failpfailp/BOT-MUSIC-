@@ -22,7 +22,7 @@ module.exports = {
     
     const Filter = args[0];
     
-    const Filters = ["8D", "nightcore", "bassboost", "vaporwave", "phaser", "tremolo", "vibrato", "treble", "normalizer", "surrounding", "pulsator", "subboost", "karaoke", "flanger", "haas", "gate", "mcompand"]
+    const Filters = ["8d", "nightcore", "bassboost", "vaporwave", "phaser", "tremolo", "vibrato", "treble", "normalizer", "surrounding", "pulsator", "subboost", "karaoke", "flanger", "haas", "gate", "mcompand"]
     
     if (!Filter) return message.channel.send("Please Give A Filter - " + Filters.map(fil => fil.charAt(0).toUpperCase() + fil.slice(1)).join(", "));
     
@@ -33,6 +33,8 @@ module.exports = {
       .setTitle("Success")
       .setDescription(`🎶 ${Filter.charAt(0).toUpperCase() + Filter.slice(1)} Has Been ${Queue.Filters["nightcore"] ? "Disabled" : "Enabled"}`)
       .setTimestamp();
+    
+    Filter = Filter.toLowerCase();
     
     Queue.Filters[Filter] = Queue.Filters[Filter] ? false : true;
     
