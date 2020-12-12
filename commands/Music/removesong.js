@@ -20,7 +20,13 @@ module.exports = {
    
     if (Queue.Songs.length === 1) return message.channel.send("🎶 Only 1 Song In Queue :(");
     
+    let Content = args.join(" "), Song;
     
+    Song = await Queue.Songs.find(Son => Son.Title.includes(Content));
+    
+    if (!Song) {
+      
+    }
     
     Queue.Playing = false;
     Queue.Bot.dispatcher.pause();
