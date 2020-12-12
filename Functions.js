@@ -105,7 +105,6 @@ module.exports = {
       });
 
       if (Seek) {
-        console.log(true);
         Db.ExtraTime = Seek;
       } else {
         const PlayEmbed = new Discord.MessageEmbed()
@@ -141,7 +140,7 @@ module.exports = {
             "Error: Something Went Wrong From Bot Inside"
           );
         });
-    }, 1500);
+    }, 1000);
   },
   async Objector(Song, message) {
     function FD(duration) {
