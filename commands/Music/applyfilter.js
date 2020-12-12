@@ -1,6 +1,6 @@
 const { Default_Prefix, Color } = require("../../config.js");
 const { Player } = require("../../Functions.js")
-const Discord = require("discord.js"), Ytdl = require("discord-ytdl-core")
+const Discord = require("discord.js"), Ytdl = require("discord-ytdl-core"), db = require("wio.db");
 
 module.exports = {
   name: "applyfilter",
@@ -38,7 +38,7 @@ module.exports = {
     
     Queue.Filters[Filter] = Queue.Filters[Filter] ? false : true;
     
-    await Player(message, Discord, client, Ytdl, { Filter: Filter, Play: Queue.Songs[0], Color: Color });
+    await Player(message, Discord, client, Ytdl, { Filter: Filter, Play: Queue.Songs[0], Color: Color, db: db });
 
     return message.channel.send(Embed).catch(() => message.channel.send(`🎶 ${Filter.charAt(0).toUpperCase() + Filter.slice(1)} Has Been ${Queue.Filters[Filter] ? "Disabled" : "Enabled"}`));
     

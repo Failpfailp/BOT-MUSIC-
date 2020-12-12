@@ -1,6 +1,6 @@
 const { Default_Prefix, Color } = require("../../config.js");
 const { Player } = require("../../Functions.js")
-const Discord = require("discord.js"), Ytdl = require("discord-ytdl-core")
+const Discord = require("discord.js"), Ytdl = require("discord-ytdl-core"), db = require("wio.db");
 
 module.exports = {
   name: "bassboost",
@@ -28,7 +28,7 @@ module.exports = {
     
     Queue.Filters["bassboost"] = Queue.Filters["bassboost"] ? false : true;
     
-    await Player(message, Discord, client, Ytdl, { Filter: "bassboost", Play: Queue.Songs[0], Color: Color });
+    await Player(message, Discord, client, Ytdl, { Filter: "bassboost", Play: Queue.Songs[0], Color: Color, db: db });
 
     return message.channel.send(Embed).catch(() => message.channel.send(`🎶 Nightcore Has Been ${Queue.Filters["bassboost"] ? "Disabled" : "Enabled"}`));
     

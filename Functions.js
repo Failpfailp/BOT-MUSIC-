@@ -49,20 +49,22 @@ module.exports = {
     }
 
     if (!options.Play) {
+      if (!options.db.fetch(`24_${message.guild.id}`)) {
       await Db.VoiceChannel.leave();
+      };
       await client.queue.delete();
       const Embeded = new Discord.MessageEmbed()
         .setColor(options.Color)
         .setTitle("Queue Ended!")
         .setDescription(
-          "Server Queue Has Been Ended, Thanks For Listening To Me <3"
+          "Server Queue Has Been Ended, Thanks For Listening To Me <3\n\nPro Tip: You Can Use **24.7** Command To Make It 24/7 :D"
         )
         .setTimestamp();
       return message.channel
         .send(Embeded)
         .catch(() =>
           message.channel.send(
-            "Server Queue Has Been Ended, Thanks For Listening To Me <3"
+            "Server Queue Has Been Ended, Thanks For Listening To Me <3\n\nPro Tip: You Can Use **24.7** Command To Make It 24/7 :D"
           )
         );
     }

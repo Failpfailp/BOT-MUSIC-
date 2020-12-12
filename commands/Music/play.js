@@ -1,9 +1,6 @@
 const { Default_Prefix, Color } = require("../../config.js");
 const { GetRegxp, Linker, Objector, Player } = require("../../Functions.js");
-const Discord = require("discord.js");
-const Sr = require("youtube-sr");
-const syt = require("scrape-yt");
-const Ytdl = require("discord-ytdl-core");
+const Discord = require("discord.js"), Sr = require("youtube-sr"), syt = require("scrape-yt"), Ytdl = require("discord-ytdl-core"), db = require("wio.db");
 const Filters = {
   bassboost: "bass=g=20,dynaudnorm=f=200",
   "8D": "apulsator=hz=0.08",
@@ -226,7 +223,7 @@ module.exports = {
     };
 
     try {
-      await Player(message, Discord, client, Ytdl, { Play: Database.Songs[0], Color: Color } );
+      await Player(message, Discord, client, Ytdl, { Play: Database.Songs[0], Color: Color, db: db } );
     } catch (error) {
       console.log(error);
       await client.queue.delete(message.guild.id);
