@@ -22,7 +22,7 @@ module.exports = {
     
     let Filter = args[0];
     
-    const Filters = ["8d", "nightcore", "bassboost", "vaporwave", "phaser", "tremolo", "vibrato", "treble", "normalizer", "surrounding", "pulsator", "subboost", "karaoke", "flanger", "haas", "gate", "mcompand"]
+    const Filters = ["nightcore", "bassboost", "vaporwave", "phaser", "treble", "normalizer", "flanger"]
     
     if (!Filter) return message.channel.send("Please Give A Filter - " + Filters.map(fil => fil.charAt(0).toUpperCase() + fil.slice(1)).join(", "));
     
