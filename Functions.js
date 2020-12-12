@@ -21,7 +21,7 @@ module.exports = {
   },
   async Player(message, Discord, client, Ytdl, options = {}) {
     const Filters = {
-      "8D": "apulsator=hz=0.08",
+      "8d": "apulsator=hz=0.08",
       bassboost: "bass=g=20,dynaudnorm=f=200",
       vaporwave: "aresample=48000,asetrate=48000*0.8",
       nightcore: "aresample=48000,asetrate=48000*1.25",
