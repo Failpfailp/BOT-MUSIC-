@@ -13,15 +13,20 @@ module.exports = {
     
     const Filter = m => m.author.id == message.author.id;
     
-    const Warn = await message.channel.send("Please Respond With Yes Or No To Confirm Refresh!\n\nIt Will Clear Queue But It Will Make Quality Better\n\nTime Limit: 5 Minutes");
+    const Warn = await message.channel.send("**Please Respond With Yes Or No To Confirm Refresh!**\n\nIt Will **Clear Queue** But It Will Make Quality Better\n\nTime Limit: **5 Minutes**");
     
     await message.channel.awaitMessages(Filter, { max: 1, time: 300000, errors: ["time"] }).then(async Msg => {
-        Msg = Msg.content.toLowerCase();
+        Msg = Msg.first().content.toLowerCase();
         if (Msg === "no" || Msg !== "no" && Msg !== "yes") return message.channel.send("Okay, Canceled >_<");
         if (message.guild.me.voice) await message.guild.me.voice.kick(message.guild.me.id);
         await client.queue.delete(message.guild.id);
         const Embed = new Discord.MessageEmbed()
-        .setColor(C)
+        .setColor(Color)
+        .setTitle(`Success`)
+        .setDescription(`Bot Has Been Refreshed :D`)
+        .setFooter(`Requested By ${message.author.username}`)
+        .setTimestamp();
+        return message.channel.send(Embed).catch(() => message.channel.send("Bot Has Been Refreshed :D"));
     });
   }
 };
