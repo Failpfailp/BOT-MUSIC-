@@ -1,6 +1,6 @@
 const { Default_Prefix, Color } = require("../../config.js");
 const Discord = require("discord.js");
-const db = require("wio.db");
+const Finder = require("lyrics-finder");
 
 module.exports = {
   name: "lyrics",
@@ -10,19 +10,24 @@ module.exports = {
   usage: "Lyrics",
   run: async (client, message, args) => {
     
-    const Channel = message.member.voice.channel;
+    const Queue = client.queue.get(message.guild.id);
     
-    if (!Channel) return message.channel.send("Please Join A Voice Channel!");
+    if (!Queue && !args[0]) return message.channel.send("Please Give Something To Search!");
     
-    if (!Channel.joinable) return message.channel.send("I Can't Join The Voice Channel!");
+    let Lyric, Lyrics;
     
-    await Channel.join().catch(() => {
-      return message.channel.send("Unable To Join The Voice Channel!");
-    });
+    try {
+      Lyric = await Finder(Queue.Songs[0].Title || args.join(" "), '');
+      if (!Lyric) return message.channel.send("No Lyrics Found - " + Queue.Songs[0].Title || args.join(" "));
+    } catch (error) {
+      return message.channel.send("No Lyrics Found - " + Queue.Songs[0].Title || args.join(" "));
+    };
+    
+    Lyrics = await Lyric.split('').join("\n");
     
     const Embed = new Discord.MessageEmbed()
     .setColor(Color)
-    .setTitle("Success")
+    .setTitle("Sucess")
     .setDescription("🎶 Joined The Voice Channel, Use Play Command To Play Music!")
     .setTimestamp();
     
