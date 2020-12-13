@@ -1,12 +1,20 @@
 # Information
 
-- A Advanced Music Bot With Filters & Other Cool Stuff ;)
+A Advanced Music Bot With Filters & Other Cool Stuff ;)
+
+- Filters (Nightcore, Bassboost, Flanger, Etc)
+- Easy To Use & Manage
 
 ### Setup
 
-- Make Sure To Install Node.js And After Downloading / Exporting Project, Please Install All Packages (Do: **npm i** To Install All)
-
-- Please Go To Config.js & Fill Information & Start The Bot (**node .**) :D
+- Download / Export This Repository & Make Sure To Install [Node.js](https://nodejs.org/en/) & [Visual Studio Code (Only If You Don't Have Any Code Editor)](https://code.visualstudio.com/)
+- Open Project In Visual Studio Code (Editor) & To Open Console / Terminal - **Ctrl + A**
+- In Your Project Terminal / Console Type This - **npm i**
+- And Wait For Them (Packages) To Install...
+- After Installing Done, Go To Config.js And
+- Fill Information & After That Type This In Your Terminal / Console - **_node ._** Or **_node index.js_**
+- When Bot Is Ready, You Will See A Message In Console
+- Enjoy <3
 
 ### Problems
 
@@ -16,8 +24,14 @@
 ### Credits
 
 - [Github (Filters :D)](https://github.com)
-- [Stackoverflow (Lyrics, Etc)](https://stackoverflow.com)
+- [Stackoverflow (Lyrics)](https://stackoverflow.com)
 - [Google (Friend)](https://google.com)
+
+### Other
+
+- Author - Legendary Emoji#1742
+- Support - [Click Me](https://discord.gg/umMpnqS)
+- License - [Mit](https://github.com/LegendaryEmoji/simple-chat-bot/blob/main/LICENSE)
 
 ### Donate
 
