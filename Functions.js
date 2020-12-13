@@ -32,7 +32,7 @@ module.exports = {
     const Db = await client.queue.get(message.guild.id);
     let Seek;
     if (options.Filter) {
-      Seek = Db.Bot.dispatcher.streamTime;
+      Seek = Db.ExtraTime ? Db.Bot.dispatcher.streamTime + Db.ExtraTime : Db.Bot.dispatcher.streamTime;
     } else {
       Seek = undefined;
     };
