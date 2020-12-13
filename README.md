@@ -20,6 +20,7 @@ A Advanced Music Bot With Filters & Other Cool Stuff ;)
 
 - [Github (Filters :D)](https://github.com)
 - [Stackoverflow (Lyrics)](https://stackoverflow.com)
+- [Node Package Manager (Discord.js, Etc)](https://www.npmjs.com/)
 - [Google (Friend)](https://google.com)
 
 ### Donate
