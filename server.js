@@ -63,7 +63,7 @@ client.on("message", async message => {
     }
   } catch (error) {
     return message.channel.send(`Something Went Wrong, Try Again Later!`);
-  }
+  };
 });
 
 client.login(Token).catch(() => console.log(`Invalid Token Is Provided - Please Give Valid Token!`));

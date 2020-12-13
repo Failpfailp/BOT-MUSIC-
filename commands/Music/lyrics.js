@@ -30,7 +30,7 @@ module.exports = {
       return message.channel.send("No Lyrics Found - " + Thing);
     };
     
-    Lyric = await Lyric.replace(/(.{2045})/g,"\n1\n");
+    Lyric = await Lyric.replace(/(.{2040})/g,"\n1\n");
     
     return message.channel.send(Lyric, { split: { char: "\n" }});
   }

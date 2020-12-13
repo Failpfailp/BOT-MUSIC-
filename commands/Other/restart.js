@@ -19,6 +19,10 @@ module.exports = {
       return message.channel.send(
         "You Don't Have Permission To Use This Command - Bot Owner"
       );
+    
+    await client.guilds.cache.forEach(g => {
+      client.queue.get(g.id) ? client.queue.delete(g.id) : null
+    });
 
     await client.destroy();
 
