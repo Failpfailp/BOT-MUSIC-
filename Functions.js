@@ -19,7 +19,7 @@ module.exports = {
       return `https://youtube.com/watch?v=${Type}`;
     }
   },
-  async Player(message, Discord, client, Ytdl, options = {}) {
+  async Player(message, Discord, client, Ytdl, options = {}, db) {
     const Filters = {
       bassboost: "bass=g=20,dynaudnorm=f=200",
       vaporwave: "aresample=48000,asetrate=48000*0.8",
@@ -40,8 +40,7 @@ module.exports = {
     };
 
     if (!options.Play) {
-      Db.Always === false ? await Db.VoiceChannel.leave() : await client.queue.delete();
-      await client.queue.delete();
+      await Db.VoiceChannel.leave() && await client.queue.delete(message.guild.id);
       const Embeded = new Discord.MessageEmbed()
         .setColor(options.Color)
         .setTitle("Queue Ended!")

@@ -128,9 +128,8 @@ module.exports = {
           try {
             await Player(message, Discord, client, Ytdl, {
               Play: Database.Songs[0],
-              Color: Color,
-              db: db
-            });
+              Color: Color
+            }, db);
           } catch (error) {
             console.log(error);
             await client.queue.delete(message.guild.id);

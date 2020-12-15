@@ -89,6 +89,7 @@ module.exports = {
     } else if (YtPlUrl.test(args[0])) {
       try {
         const Splitter = await args[0].split("list=")[1];
+        console.log(Splitter);
         const Info = await syt.getPlaylist(
           Splitter.endsWith("/") ? Splitter.slice(0, -1) : Splitter
         );
@@ -205,7 +206,7 @@ module.exports = {
     };
 
     try {
-      await Player(message, Discord, client, Ytdl, { Play: Database.Songs[0], Color: Color, db: db } );
+      await Player(message, Discord, client, Ytdl, { Play: Database.Songs[0], Color: Color }, db);
     } catch (error) {
       console.log(error);
       await client.queue.delete(message.guild.id);
