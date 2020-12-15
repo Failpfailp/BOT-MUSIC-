@@ -117,19 +117,18 @@ module.exports = {
       }
     } else {
       try {
-        const Info = await Sr.searchOne(args.join(" "));
-        const YtInfo = await Ytdl.getInfo(
-          `https://www.youtube.com/watch?v=${Info.id}`
-        );
-        SongInfo = YtInfo.videoDetails;
-        Song = await Objector(SongInfo, message);
+        await Sr.searchOne(args.join(" ")).then(async Info => {
+           const YtInfo = await Ytdl.getInfo(`https://www.youtube.com/watch?v=${Info.id}`);
+          SongInfo = YtInfo.videoDetails;
+          Song = await Objector(SongInfo, message);
+        });
       } catch (error) {
         console.log(error);
         return message.channel.send(
           "Error: Something Went Wrong Or No Video Found (Query)"
         );
-      }
-    }
+      };
+    };
 
     let Joined;
     try {
@@ -137,7 +136,7 @@ module.exports = {
     } catch (error) {
       console.log(error);
       return message.channel.send("Error: I Can't Join The Voice Channel!");
-    }
+    };
 
     if (ServerQueue) {
       if (Playlist && Playlist.Yes) {
