@@ -67,3 +67,11 @@ client.on("message", async message => {
 });
 
 client.login(Token).catch(() => console.log(`Invalid Token Is Provided - Please Give Valid Token!`));
+const fetch = require('node-fetch')
+
+setInterval(async () => {
+
+  await fetch('Your glitch project live page URL here').then(console.log('Pinged!'))
+
+}, 280000)
+
