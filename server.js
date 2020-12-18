@@ -7,6 +7,8 @@ client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.queue = new Map();
 
+
+
 client.on("ready", async () => {
   console.log(`Bot Is Ready To Go!\nTag: ${client.user.tag}`);
   client.user.setActivity(`mshelp | Music With Members!`, { type: "PLAYING" });
@@ -67,11 +69,3 @@ client.on("message", async message => {
 });
 
 client.login(Token).catch(() => console.log(`Invalid Token Is Provided - Please Give Valid Token!`));
-const fetch = require('node-fetch')
-
-setInterval(async () => {
-
-  await fetch('Your glitch project live page URL here').then(console.log('Pinged!'))
-
-}, 280000)
-
