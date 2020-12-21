@@ -23,18 +23,10 @@ A Advanced Music Bot With Filters & Other Cool Stuff ;)
 - [Node Package Manager (Discord.js, Etc)](https://www.npmjs.com/)
 - [Google (Friend)](https://google.com)
 
-### Donate
-
-By Donating, You Will Help Me To Maintain This Bot!
-
-- [Paypal](https://www.paypal.com/paypalme/legendemoji)
-- [Patreon](https://www.patreon.com/LegendaryEmoji)
-- [Ko-Fi](https://ko-fi.com/LegendaryEmoji)
-
 ### Other
 
 Note: I Will Get Your Ass If You Ever Say **This Is My Bot & Coded By Me Or Smth**, Make Sure To Give Credit (In Bot Or Commands) :D
 
-- Author - Legendary Emoji#1742
-- Support - [Click Me](https://discord.gg/umMpnqS)
-- License - [Mit](https://github.com/LegendaryEmoji/simple-chat-bot/blob/main/LICENSE)
+- Author - 𝙁𝘾 么 Glitch Editz#5631 
+- Support - [Click Me](https://discord.gg/3yQ7UaSwjy)
+- License - [Mit](https://github.com/Failpfailp/BOT-MUSIC-/)
